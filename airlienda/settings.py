@@ -32,8 +32,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "jazzmin",
-    "django.contrib.admin",
+    # "jazzmin",
+    # "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -142,7 +142,7 @@ STATIC_URL = "/static/"
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'staticfiles')]
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'staticfiles')]
 
 MEDIA_URL = '/media/'
 

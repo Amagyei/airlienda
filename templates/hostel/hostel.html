@@ -3,6 +3,192 @@
         <h1>Welcome back {{ request.user.username }}
         </h1>
         {% else %}
-        <h1>Welcome back</h1> <a href ="{% url 'userauth:sign-up' %}">Register</a> <a href *">Login‹/a>
+        <h1>Welcome back</h1> <a href ="{% url 'userauth:sign-up' %}">Register</a> <a href *">Login</a>
         {% endif %}
 </h1>
+
+<!DOCTYPE html>
+<html>
+<head>
+          <meta charset="utf-8">
+         <title></title>Liendaville Hostel </title>
+         <meta name="viewport"content= "width device-width, initial-scale=1">
+         <link rel="stylesheet" href="main.css">
+         <script src="https://kit. fontawesome.com/dbed6b6114.js" 
+          crossorigin="anonymous"></script>
+          <link rel = "icon" href = "images/logo-png" type = "image/png">
+</head>
+<body>
+
+   <!--start of header-->
+     <header class = "header" id = "headser">
+        <div class= "header-top">
+            <div class = "site-name">
+                <span>LIENDAVILLE </span>
+             </div>
+         <div class = "site-nav">
+            <span id = "nav-btn"> MENU <i class = "fas fa-bars"></i></span>
+         </div>
+         </div>
+
+         <div class="head-bottom flex">
+            <h2>SAFETY AND BEAUTY IS ASSURED  </h2>
+            <P>At our hostel, we believe that a great travel experience encompasses more than just a comfy bed and friendly faces it's about providing the amenities and services that enhance your journey. </P>
+            <button type = "button" class="head-btn">GET STARTED</button>
+         </div>
+         
+     </header>
+<!--End of header-->
+
+    <!--start of side nav-->
+<div class = "sidenav" id = "sidenav">
+    <span class = "cancel-btn" id = "cancel-btn">
+        <i class ="fas fa-times"></i>
+    </span>
+<ul class = "navbar" >
+    <li><a href = "#header">HOME</a></li>
+    <li><a href = "#services">SERVICES</a></li>
+    <li><a href = "#rooms">ROOMS</a></li>
+    <li><a href = "#students">STUDENTS</a></li>
+</ul>
+<button class = "btn sign-up">SIGN UP</button>
+<button class = "btn log-in">LOG IN</button>
+</div> 
+<!--End of side nav-->
+<!--Fullscreen model-->
+<div id ="model"></div>
+<!--end of fullscreen-->
+<!--body content-->
+<section class = "services sec-width" id = "services">
+<div class = "title">
+    <h2>services</h2>
+</div>
+<div class = "services-container">
+    <!-- single service -->
+<article class = "Services">
+    <div claas = "service-icon">
+        <span>
+            <i class = "fas fa-wifi"></i>
+        </span>
+    </div>
+    <div class = "service content">
+        <h2>WIFI</h2>
+        <P>Welcome to our vibrant hostel, where comfort meets modern convenience! 
+            We understand the importance of staying connected, whether you're 
+            sharing your adventures with loved ones or catching up on work while traveling. 
+            That's why we're thrilled to offer exceptional WiFi services that keep you 
+            connected throughout your stay</P>
+            <button type = "button " class = "btn" > KNOW MORE </button>
+    </div>
+</article>
+ <!-- END of single service -->
+   <!-- single service -->
+<article class = "services">
+    <div claas = "service-icon">
+        <span>
+            <i class = "fas fa-camera"></i>
+        </span>
+    </div>
+    <div class = " service content">
+        <h2>Safety and security </h2>
+        <P>Student safety is paramount, and hostels typically implement security measures 
+            such as key card access, lockers, CCTV surveillance, 
+            and 24-hour staff presence to ensure a safe and secure environment for all guests.</P>
+            <button type = "button " class = "btn" > KNOW MORE </button>
+    </div>
+</article>
+ <!-- END of single service -->
+  <!-- single service -->
+  <article class = "services">
+    <div claas = "service-icon">
+        <span>
+            <i class = "fas fa-open-book"></i>
+        </span>
+    </div>
+    <div class = " service content">
+        <h2>Study space and workstations </h2>
+        <P>My hostel offers designated study areas equipped with desks, chairs, 
+            and power outlets, providing students with quiet spaces to focus on their 
+            academic endeavors or complete assignments.</P>
+            <button type = "button " class = "btn" > KNOW MORE </button>
+    </div>
+</article>
+ <!-- END of single service -->
+   <!-- single service -->
+<article class = "services">
+    <div claas = "service-icon">
+        <span>
+            <i class = "fas fa-broom"></i>
+        </span>
+    </div>
+    <div class = " service content">
+        <h2>Housekeeping </h2>
+        <P>At LIENDAVILLE, we take pride in ensuring that your stay with 
+            us is not only comfortable but also impeccably clean. Our dedicated
+             housekeeping team works tirelessly to maintain the highest standards of
+             cleanliness throughout our premises, providing you with
+              a hygienic and welcoming environment to call home during your travels</P>
+            <button type = "button " class = "btn" > KNOW MORE </button>
+    </div>
+</article>
+ <!-- END of single service -->
+ <!-- single service -->
+ <article class = "services">
+    <div claas = "service-icon">
+        <span>
+            <i class = "fas fa-dumbell"></i>
+        </span>
+    </div>
+    <div class = " service content">
+        <h2>Gym </h2>
+        <P>Unleash Your Inner Athlete at Our Hostel Gym.We understand the importance of
+             maintaining an active lifestyle, even while on the road,
+             which is why we've equipped our gym with everything you need to 
+             stay fit, healthy, and energized throughout your stay.</P>
+            <button type = "button " class = "btn" > KNOW MORE </button>
+    </div>
+          </article>
+               <!-- END of single service -->
+          </div>
+                </section>
+      <div class = " book">
+        <form class = "book-form">
+          <div class = "form-item"> 
+            <label for = "checkin-date"></label>Check In Date: </label>
+            <input type = "date" id = "checkin-date">
+         </div>
+            <div class = "form-item"> 
+                <label for = "checkout-date"> Check Out Date: </label>
+                <input type = "date" id = "checkout-date">
+            
+            </div>
+            <div class = "form-item">
+                <label for = "=adult ">Adults:</label>
+                <input type = "number" min = "1 " value ="1" id = "adult"> 
+
+                <div class = "form-item">
+                    <label for = "rooms ">Rooms:</label>
+                    <input type = "number" min = "1 " value ="1" id = "rooms"> 
+                    
+                    <div class = "form-item">
+                       
+                        <input type = "submit" class = "btn" value = "Book Now"> 
+            </form>
+      </div>
+      <section class = "rooms sec-width" id = "rooms">
+         <div class = "title">
+           <h2>rooms</h2>
+        </div>
+<div class = "rooms-container">
+
+ <!--single room-->
+<article class = "room">
+<div class = "room-image"></div>
+<img src = "" alt = "room image">
+</div>
+<div class
+room-text*>
+           
+
+        </body>
+        </html>
