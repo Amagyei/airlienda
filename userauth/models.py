@@ -27,6 +27,10 @@ class User(AbstractUser):
     phone = models.CharField(max_length = 16, null = True, blank = True, unique= True)
     gender = models.CharField(max_length=20, choices = GENDER, default = "other")
     otp = models.CharField(max_length = 100, null = True, blank = True)
+    uid = ShortUUIDField(length = 8, max_length = 25, unique = True,  primary_key=True, alphabet = 'abcdefghijklmnopqrstuvwxyz1234567890')
+    type = models.CharField(max_length=156, null = True, blank = True)
+
+
 
     USERNAME_FIELD =  'email'
     REQUIRED_FIELDS = ['username']
@@ -39,7 +43,6 @@ class User(AbstractUser):
 
 
 class Profile(models.Model):
-    pid = ShortUUIDField(length = 8, max_length = 25, unique = True, alphabet = 'abcdefghijklmnopqrstuvwxyz1234567890 ')
     image = models.FileField(upload_to=user_dir_path, default="default.jpg", null = True, blank=True )
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     full_name = models.CharField(max_length=156, null = True, blank = True) 
@@ -66,9 +69,9 @@ class Profile(models.Model):
 
     def __str__(self):
         if self.full_name:
-            return f"{self.full_name}"
+            return f"{self.user.uid} - {self.user.full_name}"
         else:
-            return f"{self.user.username}"
+            return f"{self.user.uid} - {self.user.username}"
     
 
 def create_user_profile(sender, instance, created, **kwargs):
