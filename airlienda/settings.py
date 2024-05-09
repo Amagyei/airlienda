@@ -50,15 +50,14 @@ INSTALLED_APPS = [
 
     # third party apps
     "taggit",
-    # "crispy-forms",
+    #  "crispy-forms",
     "shortuuid",
-     "import_export",
+    "import_export",
     "anymail",
     "mathfilters",
     "ckeditor_uploader",
-    # "django_ckeditor_5"
-
-
+    "django_ckeditor_5",
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +68,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "airlienda.urls"
@@ -229,3 +229,8 @@ JAZZMIN_SETTINGS = {
         }
     }
 }
+
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]

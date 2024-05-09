@@ -5,6 +5,7 @@ from django.utils.html import mark_safe
 from userauth.models import User
 import shortuuid 
 from shortuuid.django_fields import ShortUUIDField
+from django_ckeditor_5.fields import CKEditor5Field
 
 HOSTEL_STATUS = (
     ("Draft", "Draft"),
@@ -26,7 +27,7 @@ ICON_TYPE =(
 class Hostel(models.Model):
     user = models.ForeignKey(User, on_delete= models.CASCADE)
     name = models.CharField(max_length=100)
-    description = models.TextField(null=True, blank=True)
+    description = CKEditor5Field(null=True, blank=True)
     image = models.FileField(upload_to="hostel_gallery")
     address = models.CharField(max_length=150)
     mobile = models.CharField(max_length=200)

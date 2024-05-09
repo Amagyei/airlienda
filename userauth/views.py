@@ -27,6 +27,7 @@ def RegisterView(request):
 
 
         user = authenticate(username = email, password = password)
+        user.save()
         login(request, user)
         messages.success(request, f"Hello {full_name}, you have been signed up")
 
