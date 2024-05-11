@@ -1,5 +1,6 @@
 {% extends './base.html' %}
 {% load static %}
+{%block content%}
 <!DOCTYPE html>
 <html lang="en">
    
@@ -65,10 +66,11 @@
             </div>
          </div>
       </div> {% endcomment %}
+      ojoasodos
       <div class="row">
-              
                {% for room in rooms %}
-               <a href = {% url 'rooms:roomslist' rooms.slug %}>
+               jasdasdas
+               <a href = "#">
                   <div class="col-md-4">
                      <div class="blog_box">
                         
@@ -151,3 +153,4 @@
       <script src="js/custom.js"></script>
    </body>
 </html>
+{%endblock %}

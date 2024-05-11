@@ -43,30 +43,6 @@ class RoomType(models.Model):
     class Meta:
         verbose_name_plural = "Room Types"
 
-# class Room(models.Model):
-#     type = models.ForeignKey(RoomType, verbose_name=("Room Type"), on_delete=models.CASCADE)
-#     number = models.IntegerField(unique=True,max_length=4, verbose_name=("Room Number"))
-#     hostel = models.ForeignKey(Hostel, on_delete=models.CASCADE)
-#     Residents = models.CharField(max_length=1000, null=True, blank=True)
-#     rid = ShortUUIDField(unique = True, length = 5, max_length=6,alphabet="abcde12345")
-#     slug = models.SlugField(unique=True)
-#     status = models.CharField(choices=ROOM_STATUS, max_length=20,default="VACANT")
-
-
-#     def __str__(self):
-#         return f'{self.type} - {self.hostel}' 
-    
-#     class Meta:
-#         verbose_name_plural = "Rooms"
-
-#     def save(self, *args, **kwargs):
-#         if self.slug == "" or self.slug == None:
-#             uuid_key = shortuuiduuid()
-#             uniqueid = uuid_key[:4]
-#             self.slug =slugify(self.hostel.name)+ slugify(self.name) + '-' + str(uniqueid.lower())
-#         super(Room, self).save(*args, **kwargs)
-
-
 class Room(models.Model):
     type = models.ForeignKey(RoomType, verbose_name="Room Type", on_delete=models.CASCADE)
     number = models.IntegerField(verbose_name="Room Number")

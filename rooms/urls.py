@@ -8,6 +8,6 @@ app_name = "rooms"
 #     path("detail/<slug>", views.room_type_detail, name ="room_type_detail"),
 # ]
 urlpatterns = [
-    # path('room-list/<slug>/', views.room_type_detail, name='room_type_detail'),
+    path('detail/<slug:slug>/room-type/<slug:rt_slug>', views.room_type_detail, name='room_type_detail'),
     path('room-list/<slug>/', views.RoomsList, name="roomslist")    
 ]

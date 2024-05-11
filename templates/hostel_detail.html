@@ -25,7 +25,7 @@
       <div class="row">
               
          {% for roomtype in roomtypes%}
-         <a href = {% url 'rooms:roomslist' roomtype.slug  %}>
+         <a href = {% url 'rooms:room_type_detail' hostel.slug roomtype.slug  %}>
             <div class="col-md-4">
                <div class="blog_box">
                   

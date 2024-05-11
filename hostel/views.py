@@ -7,6 +7,7 @@ from rooms.models import RoomType, Room
 
 def index(request):
     hostels = Hostel.objects.filter(status = "Live")
+    hostels = list(hostels)
     context = {
         "hostels": hostels
     }
