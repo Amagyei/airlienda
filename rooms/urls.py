@@ -9,5 +9,4 @@ app_name = "rooms"
 # ]
 urlpatterns = [
     path('detail/<slug:slug>/room-type/<slug:rt_slug>', views.room_type_detail, name='room_type_detail'),
-    path('room-list/<slug>/', views.RoomsList, name="roomslist")    
 ]

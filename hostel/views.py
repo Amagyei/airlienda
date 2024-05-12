@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
 
 from hostel.models import Hostel, HostelFeatures, HostelGallery, HotelFaqs
 from rooms.models import RoomType, Room
@@ -26,3 +27,14 @@ def HostelDetail(request, slug):
 
 
 
+def list_selected_room(request):
+    total = 0
+
+    if 'selection_data_obj' in request.session:
+        for h_id, item in request.session['selection_data_obj'].items():
+            print(h_id, item )
+    else:
+        messages.warning( request, "no room selected")
+        return redirect('/')
+    
+    return render(request, "selected_room.html")

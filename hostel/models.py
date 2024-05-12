@@ -90,4 +90,3 @@ class HotelFaqs (models.Model):
         verbose_name_plural = "Hotel FAQs"
 
 
-    

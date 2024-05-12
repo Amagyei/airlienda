@@ -8,6 +8,8 @@ def room_type_detail(request, slug, rt_slug):
     roomtype = RoomType.objects.get(hostel = hostel,slug = rt_slug)
     rooms = Room.objects.filter(type= roomtype)
     rooms = list(rooms)
+    # id = request.GET.get("hid")
+    # print(id)
     context = {
         "hostel":hostel, 
         "roomtype":roomtype,
@@ -15,12 +17,6 @@ def room_type_detail(request, slug, rt_slug):
     }
     return render(request, "room_type_detail.html", context )
 
-def RoomsList(request,slug):
-    rooms = Room.objects.all()
-    rooms = list(rooms)
-    context = {
-        "rooms": rooms
-    }
-    return render(request, "room_detail.html", context)
+ 
 
 
