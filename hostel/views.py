@@ -7,7 +7,7 @@ from rooms.models import RoomType, Room
 
 
 def index(request):
-    hostels = Hostel.objects.filter(status = "Live")
+    hostels = Hostel.objects.all()
     hostels = list(hostels)
     context = {
         "hostels": hostels
@@ -27,14 +27,19 @@ def HostelDetail(request, slug):
 
 
 
-def list_selected_room(request):
-    total = 0
 
-    if 'selection_data_obj' in request.session:
-        for h_id, item in request.session['selection_data_obj'].items():
-            print(h_id, item )
+from django.shortcuts import render, redirect
+from django.contrib import messages
+
+def list_selected_room(request):
+    if 'selection_data_obj' in request.session and request.session['selection_data_obj']:
+        selection_data = request.session['selection_data_obj']
+        context = {
+            'data': selection_data,
+            'total_selected_items': len(selection_data)
+        }
     else:
-        messages.warning( request, "no room selected")
+        messages.warning(request, "No room selected")
         return redirect('/')
-    
-    return render(request, "selected_room.html")
+
+    return render(request, "selected_room.html", context)

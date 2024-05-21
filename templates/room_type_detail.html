@@ -92,8 +92,8 @@
                
                
                {% endfor %}
-               <
-               <button class = "button border select-room" data-index="{{room.rid}}" ><i class = "fas fa-shopping-cart"></i> select room</button>
+               <a href = "{% url 'hostel:list_selected_room' %}">
+                  <button class = "button border select-room" id="book_room" ><i class = "fas fa-shopping-cart"></i> go to checkout</button></a>
                
                
             </div>
