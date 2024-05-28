@@ -136,23 +136,18 @@ def list_selected_room(request):
                 messages.error(request, "Invalid room or room type.")
                 return redirect('hostel:list_selected_room')
 
-            booking, created = Booking.objects.create(
+            booking= Booking.objects.create(
                 user=request.user if request.user.is_authenticated else None,
-                room_id=room_id,
-                room=room,
-                defaults={
-                    'full_name': full_name,
-                    'email': email,
-                    'phone': phone,
-                    'room': room,
-                    'hostel': hostel,
-                    'room_type': room_type,
-                    'before_discount': room_selection.get('before_discount', 0.00),
-                    'total': room_selection.get('total', 0.00),
-                    'saved': room_selection.get('saved', 0.00),
-                    'stripe_payment_intent': room_selection.get('stripe_payment_intent'),
-                    
-                }
+                full_name= full_name,
+                email= email,
+                phone= phone,
+                hostel= hostel,
+                room_type= room_type,
+                before_discount= room_selection.get('before_discount', 0.00),
+                total= room_selection.get('total', 0.00),
+                saved= room_selection.get('saved', 0.00),
+                stripe_payment_intent= room_selection.get('stripe_payment_intent'),
+                room_id= room_id,
             )
 
             return redirect('hostel:checkout', booking_id=booking.booking_id)
@@ -178,10 +173,9 @@ def checkout(request, booking_id):
     room = Room.objects.get(rid=booking.room_id)
     context = {
         "booking": booking,
-        "roomtype": booking.room_type,
+        "roomtype": room.type,
         "hostel": booking.hostel,
-        "room": booking.room_id,
-        "room_number": room.number if room else "N/A"
-        
+        "room_number": room.number,
+        "room_number": room.number if room else "N/A"    
     }
     return render(request, "checkout.html", context)

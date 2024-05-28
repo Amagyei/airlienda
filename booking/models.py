@@ -27,7 +27,7 @@ class Booking (models.Model):
     phone = models.CharField(max_length=1000)
     hostel = models.ForeignKey (Hostel, on_delete=models.SET_NULL, null=True, blank=True)
     room_type = models.ForeignKey(RoomType, on_delete=models.SET_NULL, null=True, blank=True)
-    room_id = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True, blank=True)
+    room_id = models.CharField(max_length=1000, null=True, blank=True)
     before_discount = models.DecimalField (max_digits=12, decimal_places=2, default=0.00)
     total = models.DecimalField (max_digits=12, decimal_places=2, default=0.00)
     saved = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
