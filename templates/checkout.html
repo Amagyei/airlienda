@@ -67,25 +67,21 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="mb-3">Checkout Information Page</h1>
-        {% if data %}
-            {% for rid, room_details in data.items %}
-            <!-- Booking Details -->
-            <div class="card">
-                <div class="card-header">
-                    Selected Room Details
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Hotel Name: <strong>{{ room_details.hostel_name }}</strong></li>
-                    <li class="list-group-item">Room Type: <strong>{{ room_details.roomtype_name }}</strong></li>
-                    <li class="list-group-item">Number of Beds: <strong>{{ room_details.roomtype_residents }}</strong></li>
-                    <li class="list-group-item">Price per Night: <strong>${{ room_details.roomtype_price }}</strong></li>
-                </ul>
-            </div>
-            {% endfor %}
-        {% else %}
-            <p>No rooms have been selected.</p>
-        {% endif %}
+        <h1 class="mb-3">Checkout Page</h1>
+    <!-- Booking Details -->
+    <div class="card mb-3">
+        <div class="card-header">
+            Selected Room Details
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Hotel Name: <strong>{{ hostel}}</strong></li>
+            <li class="list-group-item">Room Number: <strong>{{ room_type }}</strong></li>
+            <li class="list-group-item">Room Type: <strong>{{ room_details.roomtype_name }}</strong></li>
+            <li class="list-group-item">Number of Beds: <strong>{{ room_details.roomtype_residents }}</strong></li>
+            <li class="list-group-item">Price per Night: <strong>${{ room_details.roomtype_price }}</strong></li>
+        </ul>
+    </div>
+
         <!-- Billing Information Form -->
         <h2 class="mt-4">Billing Information</h2>
         <form action="{% url 'hostel:list_selected_room' %}" method="POST">

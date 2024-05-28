@@ -31,7 +31,7 @@ class RoomType(models.Model):
         return f'{self.name} - {self.hostel.name} - {self.price}'
     
     def rooms_count (self):
-        Room. objects.filter(room_type=self)-count()
+        Room.objects.filter(room_type=self)-count()
         
     def save(self, *args, **kwargs):
         if self.slug == "" or self.slug == None:

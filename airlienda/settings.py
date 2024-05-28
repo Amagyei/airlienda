@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "rooms",
     "userauth", 
     "addon",
+    "booking",
 
     # third party apps
     "taggit",
@@ -234,3 +235,4 @@ JAZZMIN_SETTINGS = {
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
+

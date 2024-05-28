@@ -24,7 +24,8 @@ $(document).ready(function(){
         $.ajax({
             url:'/booking/select_room',
             data:{
-                'rid':rid,
+                'room_id':room_id,
+                'room_number':room_number,
                 'hostel_id':hostel_id,
                 'hostel_name':hostel_name,
                 'roomtype_name':roomtype_name,

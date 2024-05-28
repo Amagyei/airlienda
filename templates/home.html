@@ -236,11 +236,11 @@
             <div class="row">
               
                {% for hostel in hostels%}
-               <a href = {% url 'hostel:HostelDetail' hostel.slug %}>
-                  <div class="col-md-4">
+               <a href = {% url 'hostel:HostelDetail' hostel.slug %} style="display:block; padding:10px; width:100%; ">
+                  <div class="col-md-4" style="padding:10px; width:100%; ">
                      <div class="blog_box">
                         <div class="blog_img">
-                           <figure><img src="{{hostel.image.url}}" style="max-height:15vh; max-width:15vw;" alt="#"/></figure>
+                           <figure><img src="{{hostel.image.url}}" style="max-height:15vh; max-width:15vw; object-fit:fill;" alt="#"/></figure>
                         </div>
                         <div class="blog_room">
                            <h3>{{hostel.name}}</h3>
