@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from environs import Env 
+env = Env()
+env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,6 +30,7 @@ SECRET_KEY = "django-insecure-_5xe6^d9wcnr&4wzy6^+9a=v3x5qtyty155noj8_l4n!hng3+d
 DEBUG = True
 
 ALLOWED_HOSTS = []
+SECURE_CROSS_ORIGIN_OPENER_POLICY=' same-origin-allow-popups'
 
 
 # Application definition
@@ -155,6 +159,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 AUTH_USER_MODEL = "userauth.User"
+
+STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
 
 
 

@@ -1,110 +1,123 @@
 {% extends './base.html' %}
 {% load static %}
-{% comment %} 
-{%block content%}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Checkout</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    <div class="container mt-5">
-        <h1 class="mb-3">Checkout Page</h1>
-        {% for item, id in data.items %}
-
-        <!-- Booking Details -->
-        <div class="card">
-            <div class="card-header">
-                Selected Room Details
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">Hotel Name: <strong>{{item.room_id}}</strong></li>
-                <li class="list-group-item">Room Type: <strong>King Room</strong></li>
-                <li class="list-group-item">Number of Beds: <strong>5</strong></li>
-                <li class="list-group-item">Price per Night: <strong>$100.99</strong></li>
-                <li class="list-group-item">Total Cost: <strong>$10.99</strong></li> <!-- This seems incorrect based on room price -->
-            </ul>
-        </div>
-        {% endfor %}
-        <!-- Billing Information Form -->
-        <h2 class="mt-4">Billing Information</h2>
-        <form>
-            <div class="form-group">
-                <label for="firstName">First Name</label>
-                <input type="text" class="form-control" id="firstName" placeholder="Enter your first name">
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter your email">
-            </div>
-            <div class="form-group">
-                <label for="phone">Phone</label>
-                <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number">
-            </div>
-            <button type="submit" class="btn btn-primary">Proceed to Payment</button>
-        </form>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-{% endblock %} {% endcomment %}
-
-
 
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Checkout</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    <div class="container mt-5">
-        <h1 class="mb-3">Checkout Page</h1>
-    <!-- Booking Details -->
-    <div class="card mb-3">
-        <div class="card-header">
-            Selected Room Details
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <h1 class="mb-3">Checkout Page</h1>
+            <!-- Booking Details -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    Selected Room Details
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Hostel Name: <strong>{{ hostel }}</strong></li>
+                    <li class="list-group-item">Room Number: <strong>{{ room_number }}</strong></li>
+                    <li class="list-group-item">Room Type: <strong>{{ roomtype }}</strong></li>
+                    <li class="list-group-item">Number of Beds: <strong>{{ roomtype_residents }}</strong></li>
+                    <li class="list-group-item">Price per Night: <strong>${{ total }}</strong></li>
+                </ul>
+            </div>
+
+            <!-- Billing Information Form -->
+            <h2 class="mt-4">Billing Information</h2>
+            <form action="{% url 'hostel:list_selected_room' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="full_name">Full Name</label>
+                    <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Proceed to Payment</button>
+            </form>
         </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">Hotel Name: <strong>{{ hostel}}</strong></li>
-            <li class="list-group-item">Room Number: <strong>{{ room_number }}</strong></li>
-            <li class="list-group-item">Room Type: <strong>{{ roomtype }}</strong></li>
-            <li class="list-group-item">Number of Beds: <strong>{{ room_details.roomtype_residents }}</strong></li>
-            <li class="list-group-item">Price per Night: <strong>${{ room_details.roomtype_price }}</strong></li>
-        </ul>
-    </div>
 
-        <!-- Billing Information Form -->
-        <h2 class="mt-4">Billing Information</h2>
-        <form action="{% url 'hostel:list_selected_room' %}" method="POST">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="full_name">Full Name</label>
-                <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Enter your full name" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
-            </div>
-            <div class="form-group">
-                <label for="phone">Phone</label>
-                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Proceed to Payment</button>
-        </form>
-        
+        <div class="col-lg-4">
+            <h2 class="mb-3">Payment</h2>
+            <!-- PayPal Button Container -->
+            <div id="paypal-button-container"></div>
+        </div>
     </div>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let booking_total = "{{ booking_total }}";
+        let booking_id = "{{ booking_id }}";
+        let success_id = "{{ success_id }}";
+        console.log(booking_id);
+        console.log(success_id);
+
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: booking_total
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    console.log(details);
+                    if (details.status == "COMPLETED") {
+                        //REDIRECT TO SUCCESS Page
+                        wndows.locaton.href = `/hostel/success/${booking_id }/&success=${success_id}&payer_id=${details.id}&status=${details.status}&booking_total=${booking_total}`;
+                    }
+                    $.ajax({
+                        type: 'POST',
+                        url: '/hostel/checkout/',
+                        data: {
+                            'booking_id': booking_id,
+                            'success_id': success_id,
+                            'full_name': $('#full_name').val(),
+                            'email': $('#email').val(),
+                            'phone': $('#phone').val(),
+                            'status': 'paid'
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            window.location.href = '/hostel/success/';
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
+                });
+            }
+        }).render('#paypal-button-container');
+    });
+</script>
 {% endblock %}
+
+$.ajax({
+    type: 'POST',
+    url: '/hostel/checkout/',
+    data: {
+        'booking_id': booking_id,
+        'success_id': success_id,
+        'full_name': $('#full_name').val(),
+        'email': $('#email').val(),
+        'phone': $('#phone').val(),
+        'status': 'paid'
+    },
+    success: function(response) {
+        console.log(response)
+        window.location.href = '/hostel/success/'
+    },
+    error: function(error) {
+        console.log(error)
+    }
+})

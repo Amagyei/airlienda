@@ -144,7 +144,7 @@ def list_selected_room(request):
                 hostel= hostel,
                 room_type= room_type,
                 before_discount= room_selection.get('before_discount', 0.00),
-                total= room_selection.get('total', 0.00),
+                total= room_type.price,
                 saved= room_selection.get('saved', 0.00),
                 stripe_payment_intent= room_selection.get('stripe_payment_intent'),
                 room_id= room_id,
@@ -176,6 +176,9 @@ def checkout(request, booking_id):
         "roomtype": room.type,
         "hostel": booking.hostel,
         "room_number": room.number,
-        "room_number": room.number if room else "N/A"    
+        "room_number": room.number if room else "N/A",
+        "booking_total": booking.total,
+        'booking_id': booking.booking_id,
+        'success_id': booking.success_id,
     }
     return render(request, "checkout.html", context)

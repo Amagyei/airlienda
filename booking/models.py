@@ -33,8 +33,8 @@ class Booking (models.Model):
     saved = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
     date = models.DateTimeField(auto_now_add=True)
     stripe_payment_intent = models.CharField(max_length=100, null=True, blank=True)
-    success_id = models.CharField(max_length=1000, null=True, blank=True)
-    booking_id = ShortUUIDField(unique=True, length=10, max_length=20, alphabet=" abcdefghijkImnopqrstuvwxyz")
+    success_id = ShortUUIDField(length=10, max_length=20, alphabet="abcdefghijkImnopqrstuvwxyz", null=True, blank=True)
+    booking_id = ShortUUIDField(unique=True, length=10, max_length=20, alphabet="abcdefghijkImnopqrstuvwxyz")
     
     def __str__(self):
         return f"{self.booking_id}"
