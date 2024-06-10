@@ -1,0 +1,121 @@
+{% extends './base.html' %}
+{% load static %}
+{%block content%}
+<!DOCTYPE html>
+<html lang="en">
+   
+   <!-- body -->
+   <body class="main-layout inner_page">
+      
+      <div class="back_re">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="title">
+                    <h2>{{hostel.name}}</h2>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- gallery -->
+      {% comment %} <div  class="gallery">
+         <div class="container">
+           
+            <div class="row">
+               <div class="col-md-3 col-sm-6">
+                  <div class="gallery_img">
+                     <figure><img src="images/gallery1.jpg" alt="#"/></figure>
+                  </div>
+               </div>
+               <div class="col-md-3 col-sm-6">
+                  <div class="gallery_img">
+                     <figure><img src="images/gallery2.jpg" alt="#"/></figure>
+                  </div>
+               </div>
+               <div class="col-md-3 col-sm-6">
+                  <div class="gallery_img">
+                     <figure><img src="images/gallery3.jpg" alt="#"/></figure>
+                  </div>
+               </div>
+               <div class="col-md-3 col-sm-6">
+                  <div class="gallery_img">
+                     <figure><img src="images/gallery4.jpg" alt="#"/></figure>
+                  </div>
+               </div>
+               <div class="col-md-3 col-sm-6">
+                  <div class="gallery_img">
+                     <figure><img src="images/gallery5.jpg" alt="#"/></figure>
+                  </div>
+               </div>
+               <div class="col-md-3 col-sm-6">
+                  <div class="gallery_img">
+                     <figure><img src="images/gallery6.jpg" alt="#"/></figure>
+                  </div>
+               </div>
+               <div class="col-md-3 col-sm-6">
+                  <div class="gallery_img">
+                     <figure><img src="images/gallery7.jpg" alt="#"/></figure>
+                  </div>
+               </div>
+               <div class="col-md-3 col-sm-6">
+                  <div class="gallery_img">
+                     <figure><img src="images/gallery8.jpg" alt="#"/></figure>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div> {% endcomment %}
+      
+      <div class="row px-3">
+         <div >
+               {% for room in rooms %}
+               
+               <a href = "#">
+                  <div class="col-md-4">
+                     <div class="blog_box">
+                        
+                        <div class="blog_room">
+                           <h3>{{room.number}}</h3>
+                           <span>{{room.type}} </span>
+                           <p>{{room.status}} </p>
+                        </div>
+                     </div>
+                  </div>
+                  <input type="hidden" class="room_id" value="{{room.rid}}" id="room_rid_{{room.rid}}">
+                  <input type="hidden" class="room_number" value="{{room.number}}" id= "room_number_{{room.rid}}">
+                  <button class = "button border select-room" data-index="{{room.rid}}" ><i class = "fas fa-shopping-cart"></i> select room</button>
+
+
+
+               </a>
+               
+               
+               {% endfor %}
+               <a href = "{% url 'hostel:list_selected_room' %}">
+                  <button class = "button border select-room" id="book_room" ><i class = "fas fa-shopping-cart"></i> go to checkout</button></a>
+               
+               
+            </div>
+         </div>
+            <input type="text"  id="room_no">
+            <input type="hidden" value="{{hostel.id}}" id="hostel_id">
+            <input type="hidden" value="{{hostel.name}}" id="hostel_name">     
+            <input type="hidden" value="{{roomtype.name}}" id="roomtype_name">
+            <input type="hidden" value="{{roomtype.price}}" id="roomtype_price">
+            <input type="hidden" value="{{roomtype.residents}}" id="residents">
+            <input type="hidden" value="{{roomtype.rtid}}" id="roomtype_rtid">|I
+            <input type="hidden" value="{{roomtype.residents}}" id="roomtype_residents">|I
+            
+
+         
+      <!-- end gallery -->
+    
+      <!--  footer -->
+      
+      <!-- end footer -->
+      <!-- Javascript files-->
+     
+   </body>
+</html>
+{%endblock %}

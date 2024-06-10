@@ -1,0 +1,61 @@
+{% extends './base.html' %}
+{% load static %}]
+
+{%block content%}
+<!DOCTYPE html>
+<html lang="en">
+   
+   <!-- body -->
+   <body class="main-layout inner_page">
+      
+      
+      <div class="back_re">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="title">
+                    <h2>{{hostel.name}}</h2>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- gallery -->
+      {{hostel.name}}
+      <div class="row">
+              
+         {% for roomtype in roomtypes%}
+         <a href = {% url 'rooms:room_type_detail' hostel.slug roomtype.slug  %}>
+            <div class="col-md-4">
+               <div class="blog_box">
+                  
+                  <div class="blog_room">
+                     <h3>{{roomtype.name}}</h3>
+                     <span> number of {{roomtype.residents}} </span>
+                     <p>price: {{roomtype.price}} </p>
+                  </div>
+               </div>
+            </div>
+
+         </a>
+         
+         {% endfor %}
+         
+      </div>
+      
+      {% comment %} {% for roomtype in roomtypes%}
+         {{roomtype.name}}
+      {% endfor%} {% endcomment %}
+      <!-- end gallery -->
+    
+      
+      <!-- Javascript files-->
+      <script src="js/jquery.min.js"></script>
+      <script src="js/bootstrap.bundle.min.js"></script>
+      <script src="js/jquery-3.0.0.min.js"></script>
+      <!-- sidebar -->
+      <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+      <script src="js/custom.js"></script>
+   </body>
+</html>
+{%endblock%}

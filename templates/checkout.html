@@ -1,0 +1,123 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <h1 class="mb-3">Checkout Page</h1>
+            <!-- Booking Details -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    Selected Room Details
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Hostel Name: <strong>{{ hostel }}</strong></li>
+                    <li class="list-group-item">Room Number: <strong>{{ room_number }}</strong></li>
+                    <li class="list-group-item">Room Type: <strong>{{ roomtype }}</strong></li>
+                    <li class="list-group-item">Number of Beds: <strong>{{ roomtype_residents }}</strong></li>
+                    <li class="list-group-item">Price per Night: <strong>${{ total }}</strong></li>
+                </ul>
+            </div>
+
+            <!-- Billing Information Form -->
+            <h2 class="mt-4">Billing Information</h2>
+            <form action="{% url 'hostel:list_selected_room' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="full_name">Full Name</label>
+                    <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Proceed to Payment</button>
+            </form>
+        </div>
+
+        <div class="col-lg-4">
+            <h2 class="mb-3">Payment</h2>
+            <!-- PayPal Button Container -->
+            <div id="paypal-button-container"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let booking_total = "{{ booking_total }}";
+        let booking_id = "{{ booking_id }}";
+        let success_id = "{{ success_id }}";
+        console.log(booking_id);
+        console.log(success_id);
+
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: booking_total
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    console.log(details);
+                    if (details.status == "COMPLETED") {
+                        //REDIRECT TO SUCCESS Page
+                        wndows.locaton.href = `/hostel/success/${booking_id }/&success=${success_id}&payer_id=${details.id}&status=${details.status}&booking_total=${booking_total}`;
+                    }
+                    $.ajax({
+                        type: 'POST',
+                        url: '/hostel/checkout/',
+                        data: {
+                            'booking_id': booking_id,
+                            'success_id': success_id,
+                            'full_name': $('#full_name').val(),
+                            'email': $('#email').val(),
+                            'phone': $('#phone').val(),
+                            'status': 'paid'
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            window.location.href = '/hostel/success/';
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
+                });
+            }
+        }).render('#paypal-button-container');
+    });
+</script>
+{% endblock %}
+
+$.ajax({
+    type: 'POST',
+    url: '/hostel/checkout/',
+    data: {
+        'booking_id': booking_id,
+        'success_id': success_id,
+        'full_name': $('#full_name').val(),
+        'email': $('#email').val(),
+        'phone': $('#phone').val(),
+        'status': 'paid'
+    },
+    success: function(response) {
+        console.log(response)
+        window.location.href = '/hostel/success/'
+    },
+    error: function(error) {
+        console.log(error)
+    }
+})
