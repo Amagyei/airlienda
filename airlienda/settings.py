@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "ckeditor_uploader",
     "django_ckeditor_5",
     'debug_toolbar',
+    'stripe',
 ]
 
 MIDDLEWARE = [
@@ -161,6 +162,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "userauth.User"
 
 STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
+STRIPE_PUBLIC_KEY = env("STRIPE_PUBLIC_KEY")
 
 
 

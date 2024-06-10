@@ -10,3 +10,4 @@ django-mathfilters
 django-ckeditor-5
 django-debug-toolbar
 environs==10.0.0
+stripe
