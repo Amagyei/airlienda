@@ -12,6 +12,7 @@ from django.conf import settings
 import stripe
 import json
 import traceback
+from decimal import Decimal
 
 
 # model imports
@@ -200,8 +201,27 @@ def create_checkout_session(request, booking_id):
 def payment_success(request, booking_id):
     success_id = request.GET.get('success_id')
     booking_total = request.GET.get('booking_total')
+    if success_id and booking_total:
+        success_id = success_id.rstrip('/')
+        booking_total = booking_total.rstrip('/')
+
+        booking = Booking.objects.get(booking_id=booking_id, success_id = success_id)
+
+        if booking.total == Decimal(booking_total):
+            print("booking total matched")
+            if booking.payment_status == "processing":
+                booking.payment_status = "paid"
+                booking.save()
+            else:
+                messages.success(request, 'payment made already, Thank You for your patronage ')
+        else:
+            messages.errror(request, 'payment manipulation detected')
+
+        
+        
+    
      
-    booking = Booking.objects.get(booking_id=booking_id)
+    
     context = {
         'booking': booking
     }
