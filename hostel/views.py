@@ -1,3 +1,4 @@
+# Imports from Django
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -7,17 +8,22 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 
+# 3rd party imports
 import stripe
 import json
+import traceback
 
 
-from hostel.models import Hostel, HostelFeatures, HostelGallery, HotelFaqs
+# model imports
+from hostel.models import Hostel
 from rooms.models import RoomType, Room
 from booking.models import Booking
 
 # Create your views here.
 
-
+# 
+# Home page
+# 
 def index(request):
     hostels = Hostel.objects.all()
     hostels = list(hostels)
@@ -26,7 +32,9 @@ def index(request):
     }
     return render(request, "home.html", context)
 
-
+# 
+# renders Hostel Detail page
+# 
 def HostelDetail(request, slug):
     hostel = Hostel.objects.get(status = "Live", slug=slug)
     roomtypes = RoomType.objects.filter(hostel = hostel)
@@ -37,7 +45,9 @@ def HostelDetail(request, slug):
     }
     return render(request, "hostel_detail.html", context)  
 
-
+# 
+# List Selected Room's Detail page
+# 
 def list_selected_room(request):
     if request.method == "POST":
         try:
@@ -109,6 +119,16 @@ def list_selected_room(request):
         }
         return render(request, "selected_room.html", context)
 
+
+# 
+# CHECKOUT VIEWS
+# 
+
+
+# 
+# Create Checkout
+# 
+
 def checkout(request, booking_id):
     booking = Booking.objects.get(booking_id=booking_id)
     room = Room.objects.get(rid=booking.room_id)
@@ -126,50 +146,71 @@ def checkout(request, booking_id):
     return render(request, "checkout.html", context)
 
 
+# 
+# create checkout session
+# 
+
+
 @csrf_exempt
 def create_checkout_session(request, booking_id):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            booking_id = data.get('booking_id')
-            booking = Booking.objects.get(booking_id=booking_id)
-            stripe.api_key = settings.STRIPE_SECRET_KEY
-            checkout_session = stripe.checkout.Session.create(
-                customer_email=booking.email,
-                payment_method_types=['card'],
-                line_items=[
-                    {
-                        'price_data': {
-                            'currency': 'usd',  # Assuming the currency is USD
-                            'product_data': {
-                                'name': booking.room_type.name,
-                            },
-                            'unit_amount': int(booking.total * 100),
+    print("Received request method:", request.method)
+    if request.method != 'POST':
+
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
+    
+    try:
+        data = json.loads(request.body)
+        # booking_id = data.get('booking_id')
+        print(booking_id)
+
+        booking = Booking.objects.get(booking_id=booking_id)
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        checkout_session = stripe.checkout.Session.create(
+            customer_email=booking.email,
+            payment_method_types=['card'],
+            line_items=[
+                {
+                    'price_data': {
+                        'currency': 'usd',  
+                        'product_data': {
+                            'name': booking.room_type.name,
                         },
-                        'quantity': 1,
+                        'unit_amount': int(booking.total * 100),
                     },
-                ],
-                mode='payment',
-                success_url=request.build_absolute_uri(reverse('hostel:payment_success', args=[booking.booking_id])) + '?session_id={CHECKOUT_SESSION_ID}&success_id='+booking.success_id+'&booking_total='+str(booking.total),
-                cancel_url=request.build_absolute_uri(reverse('hostel:payment_failed', args=[booking.booking_id])), 
-            )
-            booking.payment_status = "Processing"
-            booking.stripe_payment_intent = checkout_session['id']
-            booking.save()
-
-            return JsonResponse({'sessionID': checkout_session.id})
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=400)
-    else:
-        return JsonResponse({'error': 'Invalid request method'}, status=400)
-
+                    'quantity': 1,
+                },
+            ],
+            mode='payment',
+            success_url=request.build_absolute_uri(reverse('hostel:payment_success', args=[booking.booking_id])) + '?session_id={CHECKOUT_SESSION_ID}&success_id='+booking.success_id+'&booking_total='+str(booking.total),
+            
+            cancel_url=request.build_absolute_uri(reverse('hostel:payment_failed', args=[booking.booking_id])), 
+        )
+        booking.payment_status = "Processing"
+        booking.stripe_payment_intent = checkout_session['id']
+        booking.save()
+        print(checkout_session.id)
+        return JsonResponse({'sessionId': checkout_session.id})
+    except Exception as e:
+        traceback.print_exc()  
+        return JsonResponse({'error': str(e)}, status=500)
+    
+# 
+# Checkout PAYMENT SUCCESS view
+# 
 def payment_success(request, booking_id):
+    success_id = request.GET.get('success_id')
+    booking_total = request.GET.get('booking_total')
+     
     booking = Booking.objects.get(booking_id=booking_id)
     context = {
         'booking': booking
     }
     return render(request, "payment_success.html", context)
 
+
+# 
+# Checkout PAYMENT FAILED view
+# 
 def payment_failed(request, booking_id):
     booking = Booking.objects.get(booking_id=booking_id)
     context = {

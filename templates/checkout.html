@@ -115,29 +115,44 @@
 {% comment %} stripe payment processing {% endcomment %}
 <script>
     console.log("Stripe Publishable Key:", '{{stripe_publishable_key}}');
+    console.log('{{sessionId}}')
     var stripe = Stripe('{{stripe_publishable_key}}') 
     
     var checkoutButton = document.getElementById('checkout-button')
     var roomtype= "{{roomtype}}"
     console.log(roomtype)
+    console.log("{% url 'hostel:create_checkout_session' booking_id=booking.booking_id %}");
 
     checkoutButton.addEventListener('click', function(){
-        
-        var email= "{{booking.email}}"
-        
-        console.log(email)
-        console.log(stripe)
-        checkoutButton.innerHTML = "Processing <i class='fas fa-spinner fa-spin'></i>"
-
-        fetch("hostel/api/create_checkout_session/{{booking.booking_id}}", {
-            method:'POST',
-            body: JSON.stringify({email: email }),
-
-        }).then(function(response){
-            console.log(response)
-            return response.json 
+        var email= "{{booking.email}}";
+    
+        checkoutButton.innerHTML = 
+            "Processing <i class='fas fa-spinner fa-spin'></i>";
+    
+        fetch("{% url 'hostel:create_checkout_session' booking_id=booking_id %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}' 
+            },
+            body: JSON.stringify({email: email})
         })
-    })
+        .then(response => response.json())  // Convert response to JSON
+        .then(data => {
+            if (data.sessionId) {
+                console.log('Session ID:', data.sessionId);  // Print the session ID from the response
+                return stripe.redirectToCheckout({sessionId: data.sessionId});
+            } else {
+                throw new Error('Session ID not received');  // Handle cases where session ID is not received
+            }
+        })
+        .then(result => {
+            console.log('Redirection result:', result);  // Handle any logic after redirect if necessary
+        })
+        .catch(error => {
+            console.error('Error:', error);  // Catch and log any errors
+        });
+    });
 </script> 
 
 {% endblock %}
