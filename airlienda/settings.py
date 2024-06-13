@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     "rooms",
     "userauth", 
     "addon",
-    "booking",
+    "booking.apps.BookingConfig",
 
     # third party apps
     "taggit",

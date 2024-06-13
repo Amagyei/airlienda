@@ -7,6 +7,7 @@ import shortuuid
 from shortuuid.django_fields import ShortUUIDField
 from django_ckeditor_5.fields import CKEditor5Field
 
+
 HOSTEL_STATUS = (
     ("Draft", "Draft"),
     ("Disabled","Disabled"),
@@ -90,27 +91,3 @@ class HotelFaqs (models.Model):
         verbose_name_plural = "Hotel FAQs"
 
 
-class Notification(models.Model):
-
-    NOTIFICATION_TYPES = (
-        ('booking', 'Booking'),
-        ('payment', 'Payment'),
-        ('system', 'System Update'),
-        ('custom', 'Custom Message'),
-    )
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
-
-    message = models.TextField()
-
-    type = models.CharField(max_length=20, choices=NOTIFICATION_TYPES)
-
-    url = models.URLField(null=True, blank=True)
-
-    read = models.BooleanField(default=False)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"Notification for {self.user.username} - {self.type}"

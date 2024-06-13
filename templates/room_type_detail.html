@@ -69,6 +69,7 @@
       
       <div class="row px-3">
          <div >
+               {% if rooms %}
                {% for room in rooms %}
                
                <a href = "#">
@@ -95,10 +96,14 @@
                <a href = "{% url 'hostel:list_selected_room' %}">
                   <button class = "button border select-room" id="book_room" ><i class = "fas fa-shopping-cart"></i> go to checkout</button></a>
                
+               {% else%}
+                <div><b> Sorry there are No rooms available please go try picking another hostel or Room Type</b></div>
+                {% endif %}
+               
                
             </div>
          </div>
-            <input type="text"  id="room_no">
+            {% comment %} <input type="text"  id="room_no"> {% endcomment %}
             <input type="hidden" value="{{hostel.id}}" id="hostel_id">
             <input type="hidden" value="{{hostel.name}}" id="hostel_name">     
             <input type="hidden" value="{{roomtype.name}}" id="roomtype_name">

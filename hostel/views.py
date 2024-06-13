@@ -5,20 +5,23 @@ from django.http import HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
 from django.http import JsonResponse
+from django.shortcuts import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
+from django.utils import timezone
 
 # 3rd party imports
 import stripe
 import json
 import traceback
 from decimal import Decimal
+from datetime import timedelta
 
 
 # model imports
 from hostel.models import Hostel
 from rooms.models import RoomType, Room
-from booking.models import Booking
+from booking.models import Booking, Notification
 
 # Create your views here.
 
@@ -186,7 +189,7 @@ def create_checkout_session(request, booking_id):
             
             cancel_url=request.build_absolute_uri(reverse('hostel:payment_failed', args=[booking.booking_id])), 
         )
-        booking.payment_status = "Processing"
+        booking.payment_status = "processing"
         booking.stripe_payment_intent = checkout_session['id']
         booking.save()
         print(checkout_session.id)
@@ -208,24 +211,34 @@ def payment_success(request, booking_id):
         booking = Booking.objects.get(booking_id=booking_id, success_id = success_id)
 
         if booking.total == Decimal(booking_total):
-            print("booking total matched")
             if booking.payment_status == "processing":
                 booking.payment_status = "paid"
                 booking.save()
+
+                noti = Notification.objects.create(
+                    type="Booking Confirmed",
+                    booking = booking
+                )
+                if request.user.is_authenticated:
+                    noti.user = request.user
+                else:
+                    noti.user  = None
+                noti.save()
+
+                if 'selection_data_obj' in request.session:
+                    del request.session['selection_data_obj']
             else:
                 messages.success(request, 'payment made already, Thank You for your patronage ')
+                # return redirect('/')
         else:
-            messages.errror(request, 'payment manipulation detected')
+            messages.errror(request, 'payment manipulation detected ')
 
-        
-        
-    
-     
-    
-    context = {
-        'booking': booking
-    }
-    return render(request, "payment_success.html", context)
+    return render( request, "payment_success.html", {'booking': booking})
+ 
+    # context = {
+    #     'booking': booking
+    # }
+    # return render(request, "payment_success.html", context)
 
 
 # 
@@ -237,3 +250,16 @@ def payment_failed(request, booking_id):
         'booking': booking
     }
     return render(request, "failed.html", context)
+
+
+@csrf_exempt
+def update_room_status(request):
+    notifications = Notification.objects.filter(type = "Booking Confirmed")
+
+    for notification in notifications:
+        booking = notification.booking
+        room = Room.objects.filter(rid = booking.room_id)
+        if room.status != "OCCUPIED":
+            room.status = 'OCCUPIED'
+            print(f'room { room.number} occupancy status has been updated')
+        return HttpResponse("Room status updated.", status=200)
