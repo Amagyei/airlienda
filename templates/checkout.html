@@ -20,7 +20,7 @@
                 </ul>
             </div>
 
-            <!-- Billing Information Form -->
+            {% comment %} <!-- Billing Information Form -->
             <h2 class="mt-4">Billing Information</h2>
             <form action="{% url 'hostel:list_selected_room' %}" method="POST">
                 {% csrf_token %}
@@ -37,7 +37,7 @@
                     <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Proceed to Payment</button>
-            </form>
+            </form> {% endcomment %}
         </div>
 
         <div class="col-lg-4">
