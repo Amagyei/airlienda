@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     "rooms",
     "userauth", 
     "addon",
-    "booking",
+    "booking.apps.BookingConfig",
+    "userDashboard",
 
     # third party apps
     "taggit",
@@ -159,14 +160,34 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
+# 
+# USER AUTH SETTINGS
+# 
+
 AUTH_USER_MODEL = "userauth.User"
+
+LOGIN_URL = 'userauth:sign-in'
+LOGOUT_REDIRECT = 'userauth:sign-in'
+
+# 
+# STRIPE SETTINGS
+# 
 
 STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
 STRIPE_PUBLIC_KEY = env("STRIPE_PUBLIC_KEY")
 
 
+#
+# PAYSTACK SETTINGS
+# 
+
+PAYSTACK_PUBLIC_KEY = env('PAYSTACK_PUBLIC_KEY')
+PAYSTACK_SECRET_KEY = env('PAYSTACK_SECRET_KEY')
 
 
+# 
+# JAZZMIN SETTINGS
+# 
 JAZZMIN_SETTINGS = {
     "site_header": "Airlienda",
     "site_brand": "Room Management at your fingertips",
