@@ -9,11 +9,14 @@ from django.shortcuts import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.utils import timezone
+<<<<<<< HEAD
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login , logout
 from django.contrib import messages
 
+=======
+>>>>>>> 5475ca9e7b47122f42e74df2106badf331fe6cd6
 
 # 3rd party imports
 import stripe

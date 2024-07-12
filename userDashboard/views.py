@@ -1,14 +1,21 @@
 from django.shortcuts import render
 from django.shortcuts import render, redirect
+<<<<<<< HEAD
 from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 
+=======
+from django.contrib.auth.decorators import login_required
+>>>>>>> 5475ca9e7b47122f42e74df2106badf331fe6cd6
 from django.db import models
 
 from hostel.models import Hostel, HostelFeatures, HostelGallery, HotelFaqs
 from booking.models import Booking
+<<<<<<< HEAD
 from .forms import ComplaintForm
+=======
+>>>>>>> 5475ca9e7b47122f42e74df2106badf331fe6cd6
 
 
 # Create your views here.
@@ -21,6 +28,7 @@ def dashboard(request):
         "bookings": bookings,
         "total_spent": total_spent
     }
+<<<<<<< HEAD
     return render(request, "userDashboard/dashboard.html", context)
 
 @login_required
@@ -54,3 +62,6 @@ def create_complaint(request):
     else:
         form = ComplaintForm()
     return render(request, 'userDashboard/userDashboard_complaints.html', {'form': form})
+=======
+    return render(request, "dashboard.html", context)
+>>>>>>> 5475ca9e7b47122f42e74df2106badf331fe6cd6

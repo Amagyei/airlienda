@@ -18,7 +18,26 @@
                     <li class="list-group-item">Number of Beds: <strong>{{ roomtype_residents }}</strong></li>
                     <li class="list-group-item">Price per Night: <strong>${{ total }}</strong></li>
                 </ul>
-            </div> 
+            </div>
+
+            <!-- Billing Information Form -->
+            <h2 class="mt-4">Billing Information</h2>
+            <form action="{% url 'hostel:list_selected_room' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="full_name">Full Name</label>
+                    <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Proceed to Payment</button>
+            </form>
         </div>
 
         <div class="col-lg-4">
@@ -71,7 +90,7 @@
                     console.log(details);
                     if (details.status == "COMPLETED") {
                         //REDIRECT TO SUCCESS Page
-                        wndows.locaton.href = `/hostel/success/${booking_id }/&success=${success_id}&payer_id=${details.id}&status=${details.status}&booking_total=${booking_total}`;
+                        wndows.locaton.href = `/hostel/success/${booking_id }/&success_id=${success_id}&payer_id=${details.id}&status=${details.status}&booking_total=${booking_total}`;
                     }
                     $.ajax({
                         type: 'POST',
@@ -102,10 +121,12 @@
 {% comment %} stripe payment processing {% endcomment %}
 <script>
     console.log("Stripe Publishable Key:", '{{stripe_publishable_key}}');
+    console.log('{{sessionId}}')
     var stripe = Stripe('{{stripe_publishable_key}}') 
     
     var checkoutButton = document.getElementById('checkout-button')
     var roomtype= "{{roomtype}}"
+    console.log(roomtype)
     console.log("{% url 'hostel:create_checkout_session' booking_id=booking.booking_id %}");
 
     checkoutButton.addEventListener('click', function(){

@@ -1,5 +1,6 @@
 from django.db import models
 from hostel.models import Hostel, HostelFeatures, HostelGallery, HotelFaqs
+<<<<<<< HEAD
 from userauth.models import User
 # Create your models here.
 
@@ -19,3 +20,7 @@ class complaint(models.Model):
 
     def __str__(self):
         return f"{self.title} - {self.status} - {self.room_number}"
+=======
+
+# Create your models here.
+>>>>>>> 5475ca9e7b47122f42e74df2106badf331fe6cd6

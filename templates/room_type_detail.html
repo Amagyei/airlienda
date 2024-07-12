@@ -17,12 +17,19 @@
       </div>
 
       
+<<<<<<< HEAD
       <div class="about">
          
          <div class="container-fluid">
             
             
             <div class="row">
+=======
+      <div class="row px-3">
+         <div >
+               {% if rooms %}
+               {% for room in rooms %}
+>>>>>>> 5475ca9e7b47122f42e74df2106badf331fe6cd6
                
                <div class="col-md-5">
                   
@@ -59,6 +66,7 @@
                {% endif %}
                       
                   </div>
+<<<<<<< HEAD
                </div>
                
             </div>
@@ -73,6 +81,42 @@
          <input type="hidden" value="{{roomtype.rtid}}" id="roomtype_rtid">|I
          <input type="hidden" value="{{roomtype.residents}}" id="roomtype_residents">|I
       
+=======
+                  <input type="hidden" class="room_id" value="{{room.rid}}" id="room_rid_{{room.rid}}">
+                  <input type="hidden" class="room_number" value="{{room.number}}" id= "room_number_{{room.rid}}">
+                  <button class = "button border select-room" data-index="{{room.rid}}" ><i class = "fas fa-shopping-cart"></i> select room</button>
+
+
+
+               </a>
+               
+               
+               {% endfor %}
+               <a href = "{% url 'hostel:list_selected_room' %}">
+                  <button class = "button border select-room" id="book_room" ><i class = "fas fa-shopping-cart"></i> go to checkout</button></a>
+               
+               {% else%}
+                <div><b> Sorry there are No rooms available please go try picking another hostel or Room Type</b></div>
+                {% endif %}
+               
+               
+            </div>
+         </div>
+            {% comment %} <input type="text"  id="room_no"> {% endcomment %}
+            <input type="hidden" value="{{hostel.id}}" id="hostel_id">
+            <input type="hidden" value="{{hostel.name}}" id="hostel_name">     
+            <input type="hidden" value="{{roomtype.name}}" id="roomtype_name">
+            <input type="hidden" value="{{roomtype.price}}" id="roomtype_price">
+            <input type="hidden" value="{{roomtype.residents}}" id="residents">
+            <input type="hidden" value="{{roomtype.rtid}}" id="roomtype_rtid">|I
+            <input type="hidden" value="{{roomtype.residents}}" id="roomtype_residents">|I
+            
+
+         
+      <!-- end gallery -->
+    
+      <!--  footer -->
+>>>>>>> 5475ca9e7b47122f42e74df2106badf331fe6cd6
       
    </body>
    
