@@ -91,6 +91,10 @@ class HotelFaqs (models.Model):
         verbose_name_plural = "Hotel FAQs"
 
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 8a0320136fd735f0f689dbd56002ca0d27d47639
 class Announcements(models.Model):
     hostel = models.ForeignKey(Hostel, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
@@ -98,3 +102,8 @@ class Announcements(models.Model):
 
     def str(self):
         return str(self.title)
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 5475ca9e7b47122f42e74df2106badf331fe6cd6
+>>>>>>> 8a0320136fd735f0f689dbd56002ca0d27d47639
