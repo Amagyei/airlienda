@@ -4,16 +4,14 @@ from django.urls import path, include
 
 from django.conf import settings
 from django.conf.urls.static import static
-from hostel.views import index
 
+from hostel import views as hostel_views
 urlpatterns = [
     path("admin/", admin.site.urls),
-    
 
     # custom Auth urls
-    path('', include('core.urls')),
     path('user/', include('userauth.urls')),
-    path('hostel/', include('hostel.urls')),
+    path('', include('hostel.urls')),
     path('rooms/', include(('rooms.urls', 'rooms'), namespace='rooms')),
     path('booking/', include('booking.urls', namespace='booking')),
     path('dashboard/', include('userDashboard.urls')),

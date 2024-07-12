@@ -20,7 +20,7 @@
                 </ul>
             </div>
 
-            {% comment %} <!-- Billing Information Form -->
+            <!-- Billing Information Form -->
             <h2 class="mt-4">Billing Information</h2>
             <form action="{% url 'hostel:list_selected_room' %}" method="POST">
                 {% csrf_token %}
@@ -37,12 +37,12 @@
                     <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Proceed to Payment</button>
-            </form> {% endcomment %}
+            </form>
         </div>
 
         <div class="col-lg-4">
             <h2 class="mb-3">Payment</h2>
-            <button onClick="makePaystackPayment()" style="background-color:#09a5db;display:block;" class="button utf_booking_confirmation_button margin-top-10 margin-bottom-10" > Pay with Paystack </button>
+            <button onClick="makePaystackPayment()" style="background-color:#09a5db;display:block;" class="button utf_booking_confirmation_button p-3 btn btn-outline-primary" > Pay with Paystack </button>
             <!-- PayPal Button Container -->
             <div id="paypal-button-container"></div>
             <!-- Stripe Payment Form -->
@@ -65,7 +65,7 @@
 <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
 <script src="https://js.stripe.com/v3/"></script>
 <script src="https://js.paystack.co/v2/inline.js"></script>
-
+{% comment %} Paypal payment  processing {% endcomment %}
 <script>
     
     document.addEventListener("DOMContentLoaded", function() {
@@ -90,7 +90,7 @@
                     console.log(details);
                     if (details.status == "COMPLETED") {
                         //REDIRECT TO SUCCESS Page
-                        wndows.locaton.href = `/hostel/success/${booking_id }/&success=${success_id}&payer_id=${details.id}&status=${details.status}&booking_total=${booking_total}`;
+                        wndows.locaton.href = `/hostel/success/${booking_id }/&success_id=${success_id}&payer_id=${details.id}&status=${details.status}&booking_total=${booking_total}`;
                     }
                     $.ajax({
                         type: 'POST',
@@ -121,10 +121,12 @@
 {% comment %} stripe payment processing {% endcomment %}
 <script>
     console.log("Stripe Publishable Key:", '{{stripe_publishable_key}}');
+    console.log('{{sessionId}}')
     var stripe = Stripe('{{stripe_publishable_key}}') 
     
     var checkoutButton = document.getElementById('checkout-button')
     var roomtype= "{{roomtype}}"
+    console.log(roomtype)
     console.log("{% url 'hostel:create_checkout_session' booking_id=booking.booking_id %}");
 
     checkoutButton.addEventListener('click', function(){
@@ -158,6 +160,33 @@
         });
     });
 </script> 
+
+{% comment %} Paystack Payment Processing {% endcomment %}
+<script>
+    function makePaystackPayment() {
+        const paystack = new PaystackPop();
+
+        paystack.newTransaction({
+            key: "{{paystack_public_key}}",
+            email: "{{ booking.email }}",
+            amount: {{ booking.total }} * 100,  // Assuming booking.total is a number
+
+            onSuccess: (transaction) => {
+                console.log(transaction);
+                window.location.href = "/success/{{ booking.booking_id }}/?success_id={{ booking.success_id }}&booking_total={{ booking.total }}";
+            },
+
+            onCancel: () => {
+                console.log("Transaction canceled");
+                swal.fire({
+                    title: "Payment cancelled",
+                    icon: "error"
+                });
+            }
+        });
+    }
+</script>
+        
 
 {% endblock %}
 

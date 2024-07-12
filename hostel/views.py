@@ -10,6 +10,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.utils import timezone
 
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login , logout
+from django.contrib import messages
+
+
 # 3rd party imports
 import stripe
 import json
@@ -28,13 +33,40 @@ from booking.models import Booking, Notification
 # 
 # Home page
 # 
-def index(request):
+def home(request):
     hostels = Hostel.objects.all()
     hostels = list(hostels)
     context = {
         "hostels": hostels
     }
     return render(request, "home.html", context)
+
+    # check to see if user is logged in
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        # authenticate
+        user = authenticate(request, username=username , password=password)
+        if user is not None:
+            login(request,user)
+            messages.success(request, "You have been logged in")
+            return redirect('home')
+        else:
+            messages.success(request, "something went wrong please try again")
+            return render(request, 'home.html', {})
+    else:
+        return render(request, 'home.html')
+
+
+def gallery(request):
+    return render(request, "gallery.html")
+
+def about(request):
+    return render(request, "about.html")
+
+def contact(request):
+    return render(request, "contact.html")
+    
 
 # 
 # renders Hostel Detail page
