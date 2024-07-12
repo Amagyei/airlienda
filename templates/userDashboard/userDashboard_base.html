@@ -1,0 +1,50 @@
+{% extends '../base.html' %}
+{% load static %}
+
+
+<!-- body -->
+<body class="main-layout">
+
+   
+    
+    {% block content %}
+    <div class="container-fluid d-flex">
+        <div class="col-auto">
+           {% include "./userDashboard_sidebar.html" %}
+        </div>
+        <div class="col-auto">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+                        <div class="card-header">Total Paid Bookings</div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{bookings.count}}</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+                        <div class="card-header">Total Spent</div>
+                        <div class="card-body">
+                            <h5 class="card-title">&#8373;  {{total_spent.amount}}</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-warning mb-3" style="max-width: 18rem;">
+                        <div class="card-header">Wallet Balance</div>
+                        <div class="card-body">
+                            <h5 class="card-title">&#8373;  {{request.user.profile.wallet}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% block userDash_content%}
+                {% endblock %}
+            </div>
+            
+        </div>
+       
+    </div>
+    {% endblock %}
