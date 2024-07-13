@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     "rooms",
     "userauth", 
     "addon",
-    "booking",
+    "booking.apps.BookingConfig",
+    "userDashboard",
 
     # third party apps
     "taggit",
@@ -63,6 +64,7 @@ INSTALLED_APPS = [
     "ckeditor_uploader",
     "django_ckeditor_5",
     'debug_toolbar',
+    'stripe',
 ]
 
 MIDDLEWARE = [
@@ -139,7 +141,7 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
+# Static files (CSS, JavaScript, Images)s
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "/static/"
@@ -158,13 +160,34 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
+# 
+# USER AUTH SETTINGS
+# 
+
 AUTH_USER_MODEL = "userauth.User"
 
+LOGIN_URL = 'userauth:sign-in'
+LOGOUT_REDIRECT = 'userauth:sign-in'
+
+# 
+# STRIPE SETTINGS
+# 
+
 STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
+STRIPE_PUBLIC_KEY = env("STRIPE_PUBLIC_KEY")
 
 
+#
+# PAYSTACK SETTINGS
+# 
+
+PAYSTACK_PUBLIC_KEY = env('PAYSTACK_PUBLIC_KEY')
+PAYSTACK_SECRET_KEY = env('PAYSTACK_SECRET_KEY')
 
 
+# 
+# JAZZMIN SETTINGS
+# 
 JAZZMIN_SETTINGS = {
     "site_header": "Airlienda",
     "site_brand": "Room Management at your fingertips",

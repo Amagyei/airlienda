@@ -7,14 +7,19 @@ from shortuuid.django_fields import ShortUUIDField
 PAYMENT_STATUS = (
     ("paid", "Paid"), 
     ("pending", "Pending"), 
-    ("Processing", "Processing"), 
-    ("cancelled", "cancelled"), 
-    ("initiated", "initiated"), 
-    ("failed", "failed"), 
-    ("refunding", "refunding"),
-    ("refunded", "refunded"),
+    ("processing", "Processing"), 
+    ("cancelled", "Cancelled"), 
+    ("initiated", "Initiated"), 
+    ("failed", "Failed"), 
+    ("refunding", "Refunding"),
+    ("refunded", "Refunded"),
     ("unpaid", "Unpaid"),
-    ("expired", "expired")
+    ("expired", "Expired")
+)
+
+NOTIFICATION_TYPE = (
+    ("Booking Confirmed", "Booking Confirmed"), 
+    ("Booking Cancelled", "Booking Cancelled")
 )
 
 # Create your models here.
@@ -42,4 +47,15 @@ class Booking (models.Model):
     def rooms (self):
         return self.room.all().count()
 
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    booking = models.ForeignKey(Booking, on_delete =models.SET_NULL, null=True, blank=True)
+    type = models.CharField (max_length=100, choices= NOTIFICATION_TYPE)
+    seen = models.BooleanField (default=False)
+    date = models.DateTimeField (auto_now_add=True)
+
+
+    def str_(self):
+        return f"{self.user.username} - {self.booking.booking_id}"
 

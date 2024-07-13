@@ -56,6 +56,7 @@ class Profile(models.Model):
     id_card_number = models.CharField(max_length = 50, null = True, blank = True )
     verified = models.BooleanField( default = False)
     date = models.DateTimeField(auto_now_add = True)
+    wallet = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
 
      
 

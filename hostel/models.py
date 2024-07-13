@@ -7,6 +7,7 @@ import shortuuid
 from shortuuid.django_fields import ShortUUIDField
 from django_ckeditor_5.fields import CKEditor5Field
 
+
 HOSTEL_STATUS = (
     ("Draft", "Draft"),
     ("Disabled","Disabled"),
@@ -90,3 +91,11 @@ class HotelFaqs (models.Model):
         verbose_name_plural = "Hotel FAQs"
 
 
+
+class Announcements(models.Model):
+    hostel = models.ForeignKey(Hostel, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def str(self):
+        return str(self.title)

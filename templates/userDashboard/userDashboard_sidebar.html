@@ -1,0 +1,22 @@
+{% load static %}
+
+<!-- Sidebar -->
+<div class="sidebar bg-dark">
+    <div class="sidebar-heading text-center text-white py-4">
+        <h3>Earning Time</h3>
+    </div>
+    <ul class="list-unstyled">
+        <li><a href="{% url 'userDashboard:dashboard' %}" class="text-white py-2 d-block">Dashboard</a></li>
+        <li><a href="{% url 'userDashboard:booking_history' %}" class="text-white py-2 d-block">All Bookings</a></li>
+        <li><a href="#" class="text-white py-2 d-block">announcements</a></li>
+        <li><a href="#" class="text-white py-2 d-block">Bookmark</a></li>
+        <li><a href="#" class="text-white py-2 d-block">My Profile</a></li>
+        <li><a href="#" class="text-white py-2 d-block">Change Password</a></li>
+        <li><a href="#" class="text-white py-2 d-block">Logout</a></li>
+    </ul>
+</div>
+<!-- End of Sidebar -->
+
+<!-- Optional JavaScript -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>

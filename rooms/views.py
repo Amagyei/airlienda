@@ -6,7 +6,7 @@ from .models import Room
 def room_type_detail(request, slug, rt_slug):
     hostel = Hostel.objects.get(slug=slug, status = "Live")
     roomtype = RoomType.objects.get(hostel = hostel,slug = rt_slug)
-    rooms = Room.objects.filter(type= roomtype)
+    rooms = Room.objects.filter(type=roomtype, status = 'VACANT')
     rooms = list(rooms)
     # id = request.GET.get("hid")
     # print(id)

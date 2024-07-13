@@ -13,6 +13,7 @@
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
+      <meta name="csrf-token" content="{{ csrf_token }}">
       <!-- bootstrap css -->
       <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
       <!-- style css -->
@@ -25,6 +26,9 @@
       <link rel="stylesheet" href="{% static 'css/jquery.mCustomScrollbar.min.css' %}">
       <!-- sweet alert cdn -->
       <script src="https://unpkr.com/sweetalert297.8.2/dist/sweetalert2.all.js"></script>
+      <!-- font awesome-->
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
       <!-- Tweaks for older IEs-->
       <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
@@ -50,46 +54,48 @@
                      <div class="full">
                         <div class="center-desk">
                            <div class="logo">
-                              <a href="{% url 'hostel:hostel' %}"><img src="{% static 'images/logo.png'%}" alt="#" /></a>
+                              <a href="{% url 'hostel:home' %}"><img src="{% static 'images/logo.png'%}" alt="#" /></a>
                            </div>
                         </div>
                      </div>
                   </div>
                   <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
-                     <nav class="navigation navbar navbar-expand-md navbar-dark ">
+                     <nav class="navigation navbar navbar-expand-md navbar-dark  pb-3">
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarsExample04">
                            <ul class="navbar-nav mr-auto">
                               <li class="nav-item active">
-                                 <a class="nav-link" href="{% url 'hostel:hostel' %}">Home</a>
+                                 <a class="nav-link" href="{% url 'hostel:home' %}">Home</a>
                               </li>
                               <li class="nav-item">
-                                 <a class="nav-link" href="#">About</a>
+                                 <a class="nav-link" href="{% url 'hostel:about' %}">About</a>
                               </li>
                               <li class="nav-item">
-                                 <a class="nav-link" href="room.html">Our room</a>
+                                 <a class="nav-link" href="{% url 'hostel:gallery' %}">Gallery</a>
                               </li>
+                              
                               <li class="nav-item">
-                                 <a class="nav-link" href="gallery.html">Gallery</a>
-                              </li>
-                              <li class="nav-item">
-                                 <a class="nav-link" href="blog.html">Blog</a>
-                              </li>
-                              <li class="nav-item">
-                                 <a class="nav-link" href="contact.html">Contact Us</a>
+                                 <a class="nav-link" href="{% url 'hostel:home' %}">Contact Us</a>
                               </li>
                               {% if user.is_authenticated %}
                                  <li class=" nav-item">
-                                    <button type="button" class="btn btn-warning sign-in_btn"  ">
+                                    <button type="button" class="btn btn-warning sign-in_btn">
                                        <a class="nav-link" href="{% url 'userauth:sign-out'%}"> Sign out </a>
                                     </button>
                                  </li>
+                                 <li class=" nav-item">
+                                    
+                                    <a class="nav-link" href="{% url 'userDashboard:dashboard'%}"><i class = "fa-solid fa-user"> </i> <i class="fa-solid fa-user-plus"></i>
+                                       <i class = "fas fa-shopping-cart"></i></a>   
+                                 </li>
+                                 
+
                               {% else  %}
                                  <li class=" col-sm-3 nav-item">
                                     <button type="button" class="btn btn-warning sign-in_btn " >
-                                       <a class="nav-link" href="{% url 'userauth:sign-up'%}"">Register </a>
+                                       <a class="nav-link" href="{% url 'userauth:sign-up'%}">Register </a>
                                     </button>
                                  </li>
                                  
@@ -111,16 +117,19 @@
       <!-- end header inner -->
       <!-- end header -->
       <div>
+         
          {% if messages %}
+         
          <ul class="messages">
              {% for message in messages %}
-             <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
-                 {{ message }}
-             </li>
+             <div class="alert alert-success {{ message.tags }}" role="alert">
+               <a href="#" class="alert-link">{{ message }}</a>
+             </div>
+             
              {% endfor %}
          </ul>
          {% endif %}
-     </div>
+     </div class="mt-5">
         {% block content %}
 
         {% endblock %}
