@@ -110,9 +110,14 @@ def list_selected_room(request):
                 return redirect('hostel:list_selected_room')
 
             hostel_id = room_selection.get('hostel_id')
+            residents = room_selection.get('residents')
             if not hostel_id:
                 messages.error(request, "hostel_id is missing from the selection data.")
                 return redirect('hostel:list_selected_room')
+            
+            # if residents <= 0:
+            #     messages.error(request, "room is fully booked. Please select another room.")
+            #     return redirect('hostel:list_selected_room')
 
             try:
                 hostel = Hostel.objects.get(id=hostel_id)
@@ -250,12 +255,16 @@ def payment_success(request, booking_id):
         if booking.total == Decimal(booking_total):
             if booking.payment_status == "processing":
                 booking.payment_status = "paid"
+                booked_room = Room.objects.get(rid=booking.room_id)
+                booked_room.current_occupants += 1
+                print (f'room {booked_room.current_occupants} new occupants')
                 booking.save()
 
                 noti = Notification.objects.create(
                     type="Booking Confirmed",
                     booking = booking
                 )
+
                 if request.user.is_authenticated:
                     noti.user = request.user
                 else:
@@ -289,6 +298,7 @@ def payment_failed(request, booking_id):
     return render(request, "failed.html", context)
 
 
+
 @csrf_exempt
 def update_room_status(request):
     notifications = Notification.objects.filter(type = "Booking Confirmed")
@@ -297,6 +307,10 @@ def update_room_status(request):
         booking = notification.booking
         room = Room.objects.filter(rid = booking.room_id)
         if room.status != "OCCUPIED":
-            room.status = 'OCCUPIED'
+            if room.current_occupants < room.residents:
+                room.status = 'VACANT'
+                print(f'room { room.number} occupancy status has been updated')
+            else: 
+                room.status = 'OCCUPIED'
             print(f'room { room.number} occupancy status has been updated')
         return HttpResponse("Room status updated.", status=200)

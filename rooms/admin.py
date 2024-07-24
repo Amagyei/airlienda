@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Room, RoomType 
+from .models import Room, RoomType, InventoryItem, InventoryList
 
 # Register your models here.
 class RoomAdmin(admin.ModelAdmin):
@@ -12,4 +12,6 @@ class RoomTypeAdmin(admin.ModelAdmin):
 
 admin.site.register(Room, RoomAdmin)
 admin.site.register(RoomType, RoomTypeAdmin)
+admin.site.register(InventoryItem)
+admin.site.register(InventoryList)
 

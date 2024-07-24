@@ -13,8 +13,9 @@ from django.db import models
 
 from hostel.models import Hostel, HostelFeatures, HostelGallery, HotelFaqs
 from booking.models import Booking
-from .forms import ComplaintForm
-from .forms import ComplaintForm
+from rooms.models import InventoryList, InventoryItem
+from .forms import ComplaintForm, FaultForm
+from userauth.models import Profile 
 
 
 # Create your views here.
@@ -61,3 +62,29 @@ def create_complaint(request):
     else:
         form = ComplaintForm()
     return render(request, 'userDashboard/userDashboard_complaints.html', {'form': form})
+
+
+@login_required
+def profile(request):
+    profile = Profile.objects.get(user = request.user)
+
+    context = {
+        "profile": profile
+    }
+
+    return render(request, "userDashboard/userDashboard_profile.html", context)
+
+@login_required
+def report_a_fault(request):
+    if request.method == 'POST':
+        form = FaultForm(request.POST or None)
+        room_type = form.data.get('room_type')
+        inventory_list = InventoryList.objects.get(room_type=room_type)
+        if form.is_valid():
+            form.save()
+            form.inventory_list = inventory_list
+            messages.success(request, 'Your Fault report has been submitted successfully!')
+            return redirect('userDashboard:dashboard')  # Redirect after POST
+    else:
+        form = FaultForm()
+    return render(request, 'userDashboard/userDashboard_report_a_fault.html', {'form': form})

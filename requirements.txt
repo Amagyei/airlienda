@@ -7,7 +7,7 @@ shortuuid
 django-jazzmin
 django-anymail
 django-mathfilters
-django-ckeditor-5
+django-ckeditor
 django-debug-toolbar
 environs==10.0.0
 stripe

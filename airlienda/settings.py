@@ -29,7 +29,7 @@ SECRET_KEY = "django-insecure-_5xe6^d9wcnr&4wzy6^+9a=v3x5qtyty155noj8_l4n!hng3+d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 SECURE_CROSS_ORIGIN_OPENER_POLICY=' same-origin-allow-popups'
 
 
@@ -46,7 +46,6 @@ INSTALLED_APPS = [
 
     # custom apps
     "airlienda",
-    "core",
     "hostel",
     "rooms",
     "userauth", 
