@@ -23,40 +23,49 @@
             
             
             <div class="row">
+
+               <h4 class="title center">Select a room and go to checkout</h4>
                
-               <div class="col-md-5">
+               <div class="col-md-12">
                   
-                  <div class="titlepage container-fluid ">
-                     {% if rooms %}
-                  {% for room in rooms %}
+                  <div class="col ">
+                  {% if rooms %}
+                     <div class="row d-flex row-lg-6">
+                     {% for room in rooms %}
 
-                  <a href = "#" class="">
-                     <div class="col-md-4 border border-secondary rounded m-3 p-3">
-                        <div class="blog_box">
+                        <a href = "#checkout_btn" class="col-sm-2 mb-4">
+                           <div class="border border-secondary rounded m-3 p-3 room_box" >
+                              <div class="blog_box">
+                              
+                                 <div class="blog_room">
+                                    <h3>{{room.number}}</h3>
+                                    <span>{{room.type}} </span>
+                                    <p>{{room.status}} </p>
+                                    <p>{% for user in room.current_occupants.all %}
 
-                           <div class="blog_room">
-                              <h3>{{room.number}}</h3>
-                              <span>{{room.type}} </span>
-                              <p>{{room.status}} </p>
+                                       {% if user %}{{ user.full_name }}{% endif %} {% if not forloop.last %}, {% endif %}
+                                   {% empty %}
+                                       No occupants
+                                   {% endfor %} </p>
+                                 </div>
+                              </div>
                            </div>
-                        </div>
+                           <input type="hidden" class="room_id" value="{{room.rid}}" id="room_rid_{{room.rid}}">
+                           <input type="hidden" class="room_number" value="{{room.number}}" id= "room_number_{{room.rid}}">
+                           <button id="checkout_btn" class = "button btn btn-secondary border select-room center" data-index="{{room.rid}}" ><i class = "fas fa-shopping-cart"></i> select room</button>
+                        
+                        </a>
+                     {% endfor %}
                      </div>
-                     <input type="hidden" class="room_id" value="{{room.rid}}" id="room_rid_{{room.rid}}">
-                     <input type="hidden" class="room_number" value="{{room.number}}" id= "room_number_{{room.rid}}">
-                     <button class = "button border select-room" data-index="{{room.rid}}" ><i class = "fas fa-shopping-cart"></i> select room</button>
 
 
+                     <a href = "{% url 'hostel:list_selected_room' %}">
+                        <button class = "button btn btn-warning border select-room" id="book_room" ><i class = "fas fa-shopping-cart"></i> go to checkout</button>
+                     </a>
 
-                  </a>
-
-
-                  {% endfor %}
-                  <a href = "{% url 'hostel:list_selected_room' %}">
-                     <button class = "button border select-room" id="book_room" ><i class = "fas fa-shopping-cart"></i> go to checkout</button></a>
-                  
-               {% else%}
-                  <div><b> Sorry there are No rooms available please go try picking another hostel or Room Type</b></div>
-               {% endif %}
+                  {% else%}
+                     <div><b> Sorry there are No rooms available please go try picking another hostel or Room Type</b></div>
+                  {% endif %}
                       
                   </div>
                </div>
@@ -70,11 +79,18 @@
          <input type="hidden" value="{{roomtype.name}}" id="roomtype_name">
          <input type="hidden" value="{{roomtype.price}}" id="roomtype_price">
          <input type="hidden" value="{{roomtype.residents}}" id="residents">
-         <input type="hidden" value="{{roomtype.rtid}}" id="roomtype_rtid">|I
-         <input type="hidden" value="{{roomtype.residents}}" id="roomtype_residents">|I
+         <input type="hidden" value="{{roomtype.rtid}}" id="roomtype_rtid">
+         <input type="hidden" value="{{roomtype.residents}}" id="roomtype_residents">
       
       
    </body>
+   <script>
+      $(document).ready(function(){
+          $("button").click(function(){
+              $(this).toggleClass("active");
+          });
+      });
+   </script>
    
    <!-- body -->
  

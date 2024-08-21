@@ -1,3 +1,4 @@
+{% extends '../base.html' %}
 {% load static %}
 {% block content%}
 <html lang="en">
@@ -80,9 +81,15 @@
                                             <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                                             <div data-mdb-input-init class="form-outline flex-fill mb-0">
                                                 <input type="password" id="id_password1" class="form-control" name="password1" required/>
-                                                <label class="form-label" for="id_password1">Password</label>
+                                                <label class="form-label" for="id_password1">Password
+
+                                                </label>
                                             </div>
+
+                                            
                                         </div>
+                                        <p> Your password must be at least 8 characters long and include at least one number and one special character (e.g., !@#$%^&*). Please create a strong password that meets these criteria.</p>
+
                                         <!-- Password Confirmation -->
                                         <div class="d-flex flex-row align-items-center mb-4">
                                             <i class="fas fa-key fa-lg me-3 fa-fw"></i>

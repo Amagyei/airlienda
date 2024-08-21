@@ -2,6 +2,12 @@
 <!DOCTYPE html>
 <html lang="en">
    <head>
+       
+      <style>
+         body, h1, h2, h3, h4, h5, h6, input, button, textarea, select {
+            font-family: 'Nunito', sans-serif;
+        }
+      </style>
       <!-- basic -->
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,23 +26,26 @@
       <link rel="stylesheet" href="{% static 'css/style.css' %}">
       <!-- Responsive-->
       <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+      <!-- custom css-->
+      <link rel="stylesheet" href="{% static 'css/custom.css' %}">
       <!-- fevicon -->
       <link rel="icon" href="{% static 'images/fevicon.png' %}" type="image/gif" />
       <!-- Scrollbar Custom CSS -->
       <link rel="stylesheet" href="{% static 'css/jquery.mCustomScrollbar.min.css' %}">
       <!-- sweet alert cdn -->
-      <script src="https://unpkr.com/sweetalert297.8.2/dist/sweetalert2.all.js"></script>
+      <script src="https://unpkg.com/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
       <!-- font awesome-->
-      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+      
       <!-- Tweaks for older IEs-->
       <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
       <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
       <!--[if lt IE 9]>
-      <script src="{% static 'https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js'%}"></script>
-      <script src="{% static 'https://oss.maxcdn.com/respond/1.4.2/respond.min.js'%}"></script><![endif]-->
-   </head>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+  </head>
    <!-- body -->
    <body class="main-layout" width="100vw">
       <!-- loader  -->
@@ -136,7 +145,7 @@
       
       <!--  footer -->
       <footer>
-         <div class="footer">
+         <div class="footer d-block mt-4">
             <div class="container">
                <div class="row">
                   <div class=" col-md-4">
@@ -150,12 +159,10 @@
                   <div class="col-md-4">
                      <h3>Menu Link</h3>
                      <ul class="link_menu">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li><a href="about.html"> about</a></li>
-                        <li><a href="room.html">Our Room</a></li>
-                        <li><a href="gallery.html">Gallery</a></li>
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="contact.html">Contact Us</a></li>
+                        <li class="active"><a href="{% url 'hostel:about' %}">Home</a></li>
+                        <li><a href="{% url 'hostel:about' %}"> about</a></li>
+                        <li><a href="{% url 'hostel:gallery' %}">Gallery</a></li>
+                        <li><a href="{% url 'hostel:contact' %}">Contact Us</a></li>
                      </ul>
                   </div>
                   <div class="col-md-4">

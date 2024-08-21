@@ -1,0 +1,17 @@
+{% extends './userDashboard_base.html'%}
+{% load static %}
+
+{% block userDash_content %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.errors }}
+    {{ form.non_field_errors }}
+    <p>Title: {{ form.title }}</p>
+    <p>Message: {{ form.message }}</p>
+    <p>Room Number: {{ form.room_number }}</p>
+    <p>Room Type: {{ form.room_type }}</p>
+    <p>Faulty Item: {{ form.faulty_item }}</p>
+    <button type="submit">Submit</button>
+</form>
+{% endblock%}
+

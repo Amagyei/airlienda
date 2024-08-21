@@ -50,7 +50,7 @@
                         <form class="book_now">
                            <div class="row">
                               <div class="col-md-12">
-                                 <button class="book_btn"><a href="#hostels">Book Now</a></button>
+                                 <button class="book_btn"><a href="#hostels" class="text-light">Book Now</a></button>
                               </div>
                            </div>
                         </form>
@@ -61,30 +61,6 @@
          </div>
       </section>
       <!-- end banner -->
-      <!-- about -->
-      <div class="about">
-         <div class="container-fluid">
-            <div class="row">
-               <div class="col-md-5 d-flex align-items-center ">
-                  <div class="titlepage">
-                     <h2>About Us</h2>
-                     <p>
-
-                        Welcome to Liendaville, the premier student hostel in Ayeduase, Kumasi, Ghana, catering specifically to the vibrant community of KNUST students. At Liendaville, we strive to create a comfortable and conducive living environment that supports both academic and personal growth. Our hostel is equipped with modern facilities including a standby generator to ensure uninterrupted power supply, well-equipped gyms to promote a healthy lifestyle, dedicated study rooms for focused learning, and inviting common rooms for social interactions.
-                        
-                        Our spacious rooms are designed to provide a homely feel, complete with semi-furnished kitchens that offer the convenience of preparing your own meals. Whether you're looking for a quiet place to study, a space to work out, or a community to connect with, Liendaville offers it all. Join us at Liendaville and experience the perfect blend of comfort, convenience, and community. </p>
-                     <a class="read_more" href="Javascript:void(0)"> Read More</a>
-                  </div>
-               </div>
-               <div class="col-md-7 h-100">
-                  <div class="about_img m-0 h-100">
-                     <figure><img src="{% static 'images/LIENDA-CARPARK.JPG'%}" alt="#"/></figure>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- end about -->
       <!-- our_room -->
       <div  class="our_room">
          <div class="container">
@@ -97,14 +73,14 @@
                </div>
             </div>
             <div class="row">
-               <div class="col-md-4 col-sm-6">
+               <div class=" col-sm-6">
                   <div id="serv_hover"  class="room">
                      <div class="room_img">
                         <figure><img src="{% static 'images/room1.JPG'%}" alt="#"/></figure>
                      </div>
                      <div class="bed_room">
                         <h3>Bed Room</h3>
-                        <p>If you are going to use a passage of Lorem Ipsum, you need to be sure there </p>
+                        <p>Each room is a haven of comfort and style, featuring elegant furnishings and plush bedding to ensure a restful night’s sleep</p>
                      </div>
                   </div>
                </div>
@@ -224,38 +200,93 @@
       <!-- end gallery -->
       <!-- Available hostels -->
       <div  class="blog hostels " id="hostels">
-         <div class="container">
-            <div class="row">
+         <div class="container ">
+            <div class="">
                <div class="col-md-12">
                   <div class="titlepage">
                      <h2>Available Hostels</h2>
-                     <p>Lorem Ipsum available, but the majority have suffered </p>
                   </div>  
                </div>
             </div>
-            <div class="col d-flex ">
+            <div class="row  ">
+               <script>
+                  window.onload = function() {
+                      const maxWords = 10; // Maximum words allowed
+                      const paragraphs = document.querySelectorAll('p');
+                  
+                      paragraphs.forEach(p => {
+                          let words = p.textContent.split(/\s+/);
+                          if (words.length > maxWords) {
+                              p.textContent = words.slice(0, maxWords).join(' ') + '...';
+                          }
+                      });
+                  };
+                  </script>
               
                {% for hostel in hostels%}
-               <a href = {% url 'hostel:HostelDetail' hostel.slug %} style="display:block; padding:10px; width:100%; ">
+               {% comment %} <div class="col-sm-4 bg-opacity-75 mh-25">
+                  <a href = {% url 'hostel:HostelDetail' hostel.slug %} style="display:block; width:100%; " >
                 
-                       <div class="thumbnail col-md-12 row border border-secondary rounded m-3 d-block w-auto">
-                        <img src="{{hostel.image.url}}" style="max-height:15vh; max-width:15vw; object-fit:cover;" alt="#"/>
-                        <div class="caption">
-                          <h3>{{hostel.name}}</h3>
-                           <span>{{hostel.address}} </span>
-                           <p>{{hostel.description}} </p>
-                        </div>
-                       </div>
-            
-               </a>
+                     <div class="thumbnail col-md-12 row border border-secondary rounded m-3 d-block w-auto  mh-25">
+                      <img src="{{hostel.image.url}}" style="max-height:15vh; width:100%; object-fit:cover;" alt="#"/>
+                      <div class="caption p-3">
+                        <h3 class= "text-light">{{hostel.name}}</h3>
+                        <span>{{hostel.address}} </span>
+                        <p>{{hostel.description}} </p>
+                      </div>
+                     </div>
                
-               s
+          
+                     </a>
+                 
+               </div> {% endcomment %}
+               <div class=" col-sm-6 bg-opacity-75 mh-25 W-100">
+                  <a href = {% url 'hostel:HostelDetail' hostel.slug %} style="display:block; width:100%; " >
+                  <div id="serv_hover"  class="hostel row border bg-light bg-opacity-25  border-secondary rounded m-3 d-block w-auto  mh-25">
+                     <div class="room_img">
+                        <figure><img src="{{hostel.image.url}}"  style="max-height:15vh; width:100%; object-fit:cover;" alt="#"/></figure>
+                     </div>
+                     <div class="caption p-3">
+                        <h3 class= "">{{hostel.name}}</h3>
+                        <span>{{hostel.address}} </span>
+                        <p>{{hostel.description}} </p>
+                      </div>
+                  </div>
+                  </a>
+               </div>
+               
+               
+               
                {% endfor %}
                
             </div>
          </div>
       </div>
       <!-- end available hostels -->
+      <!-- about -->
+      <div class="about">
+         <div class="container-fluid">
+            <div class="row">
+               <div class="col-md-5 d-flex align-items-center ">
+                  <div class="titlepage">
+                     <h2>About Us</h2>
+                     <p>
+
+                        Welcome to Liendaville, the premier student hostel in Ayeduase, Kumasi, Ghana, catering specifically to the vibrant community of KNUST students. At Liendaville, we strive to create a comfortable and conducive living environment that supports both academic and personal growth. Our hostel is equipped with modern facilities including a standby generator to ensure uninterrupted power supply, well-equipped gyms to promote a healthy lifestyle, dedicated study rooms for focused learning, and inviting common rooms for social interactions.
+                        
+                        Our spacious rooms are designed to provide a homely feel, complete with semi-furnished kitchens that offer the convenience of preparing your own meals. Whether you're looking for a quiet place to study, a space to work out, or a community to connect with, Liendaville offers it all. Join us at Liendaville and experience the perfect blend of comfort, convenience, and community. </p>
+                     <a class="read_more" href="Javascript:void(0)"> Read More</a>
+                  </div>
+               </div>
+               <div class="col-md-7 h-100">
+                  <div class="about_img m-0 h-100">
+                     <figure><img src="{% static 'images/LIENDA-CARPARK.JPG'%}" alt="#"/></figure>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- end about -->
       <!--  contact -->
       <div class="contact">
          <div class="container">
@@ -291,7 +322,7 @@
                <div class="col-md-6">
                   <div class="map_main">
                      <div class="map-responsive">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15851.079589116398!2d-1.5535137!3d6.6754063!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdb959ae5dbafbd%3A0xab26e36d9fed632c!2sLienda%20Ville%20Hostel!5e0!3m2!1sen!2sgh!4v1714879379204!5m2!1sen!2sgh" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>                     </div>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15851.079589116398!2d-1.5535137!3d6.6754063!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdb959ae5dbafbd%3A0xab26e36d9fed632c!2sLienda%20Ville%20Hostel!5e0!3m2!1sen!2sgh!4v1714879379204!5m2!1sen!2sgh" max-width="100vw" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>                     </div>
                   </div>
                </div>
             </div>

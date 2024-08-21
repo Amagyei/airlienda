@@ -41,11 +41,21 @@ class Booking (models.Model):
     success_id = ShortUUIDField(length=10, max_length=20, alphabet="abcdefghijkImnopqrstuvwxyz", null=True, blank=True)
     booking_id = ShortUUIDField(unique=True, length=10, max_length=20, alphabet="abcdefghijkImnopqrstuvwxyz")
     
+
     def __str__(self):
         return f"{self.booking_id}"
     
+    def get_room(self):
+        return Room.objects.get(id=self.room_id)
+    
     def rooms (self):
-        return self.room.all().count()
+        room = self.get_room()
+        return room.all().count()
+    
+    def residents (self):
+        room = self.get_room()
+        return room.residents.count()
+    
 
 
 class Notification(models.Model):
@@ -58,4 +68,5 @@ class Notification(models.Model):
 
     def str_(self):
         return f"{self.user.username} - {self.booking.booking_id}"
+
 
