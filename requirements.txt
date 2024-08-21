@@ -8,6 +8,9 @@ django-jazzmin
 django-anymail
 django-mathfilters
 django-ckeditor
+django_ckeditor_5
 django-debug-toolbar
 environs==10.0.0
 stripe
+environs
+

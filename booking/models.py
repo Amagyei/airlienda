@@ -45,11 +45,16 @@ class Booking (models.Model):
     def __str__(self):
         return f"{self.booking_id}"
     
+    def get_room(self):
+        return Room.objects.get(id=self.room_id)
+    
     def rooms (self):
-        return self.room.all().count()
+        room = self.get_room()
+        return room.all().count()
     
     def residents (self):
-        return self.room.residents.count()
+        room = self.get_room()
+        return room.residents.count()
     
 
 

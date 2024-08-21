@@ -11,7 +11,7 @@ class LoginForm(forms.Form):
 class UserRegistrationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'full_name', 'phone', 'password1', 'password2']
+        fields = ['full_name','username', 'email', 'phone', 'password1', 'password2']
 
     def save(self, commit=True):
         # As the form saves the User model, which already includes handling for phone and full_name, no need to override save unless other logic is needed.

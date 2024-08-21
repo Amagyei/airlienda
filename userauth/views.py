@@ -44,35 +44,6 @@ def RegisterView(request):
     }
     return render(request, "userauth/sign-up.html", context)
 
-
-# def loginViewTemplate(request):
-#     if request.user.is_authenticated:
-#         messages.warning(request, "you are already logged in")
-#         return redirect("hostel:home")
-    
-#     if request.method == "POST":
-#         email = request.POST.get("email")
-#         password  = request.POST.get("password")
-
-#         try:
-#             user_query = User.objects.get(email = email)
-#             user_auth = authenticate(request, username = email, password = password)
-#             if user_query is not None:
-#                 login(request, user_auth)
-#                 messages.success(request, "you are logged in")
-#                 next_url = request.GET.get("next", "hostel:home")
-#                 return redirect(next_url)
-#             else:
-#                 messages.error(request, "Invalid email or password.")
-#                 return redirect("hostel:home")
-#         except ObjectDoesNotExist:
-#             messages.error(request, "User does not exist.")
-#             return redirect("hostel:home")
-#         except Exception as e:
-#             messages.error(request, f"An error occurred: {e}")
-#             return redirect("hostel:home")    
-#     else: 
-#         return render(request, "userauth/sign-in.html")
 def loginViewTemplate(request):
     if request.user.is_authenticated:
         messages.warning(request, "You are already logged in.")

@@ -28,7 +28,7 @@ ICON_TYPE =(
 class Hostel(models.Model):
     user = models.ForeignKey(User, on_delete= models.CASCADE)
     name = models.CharField(max_length=100)
-    description = CKEditor5Field(null=True, blank=True)
+    description = models.CharField(max_length=300, null=True, blank=True)
     image = models.FileField(upload_to="hostel_gallery")
     address = models.CharField(max_length=150)
     mobile = models.CharField(max_length=200)

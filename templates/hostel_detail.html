@@ -9,49 +9,61 @@
    <!-- body -->
    <body class="main-layout">
       
-      <div class="about">
-         
-         <div class="container-fluid">
-            
-            
-            <div class="row" style="background-image: url('{{hostel.image.url}}'); background-size: cover; background-position: center center; height: 80vh; width: 100vw;">
-               <!-- Empty div if you want to show something over the background -->
-               <div class="col-12 d-flex flex-column" style="height: 100%;  align-items: center; justify-content: center;" c>
-                  <h1 style="color: white; font-size: 3rem;">{{hostel.name}}</h1>
-                  <p style="color: white; font-size: 1.5rem;">{{hostel.address}}</p>
-                  <h2 style="color: white; font-size: 2rem;">
-                     {% for roomtype in roomtypes%}
-                     <p>{{roomtype.name}} - {{roomtype.price}}</p>
-                     {% endfor %}
-                  </h2>
-
-                  <p style="color: white; font-size: 2rem;" class="col-md-5">{{hostel.description}}</p>
-                  
-                  
-               </div>
-               <div class="titlepage container-fluid  d-flex w-2">
-                     {% for roomtype in roomtypes%}
-                     <a href = {% url 'rooms:room_type_detail' hostel.slug roomtype.slug  %}>
-                        <div class="col-md-4 bg-warning p-4 rounded ">
-                           <div class="blog_box ">
-                              
-                              <div class="blog_room ">
-                                 <h3>{{roomtype.name}}</h3>
-                                 <span> number of {{roomtype.residents}} </span>
-                                 <p>price: {{roomtype.price}} </p>
-                              </div>
-                           </div>
-                        </div>
-            
-                     </a>
-                     
-                     {% endfor %}
-                      
+      
+      <!-- about -->
+      <div class="back_re">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="title">
+                     <h1 style="color: white; font-size: 3rem;"><b>{{hostel.name}}</b></h1>
                   </div>
-               
+               </div>
             </div>
          </div>
       </div>
+      <div class="">
+
+         <div class="col-lg-12">
+             <div class="row">
+                 <div class="col-md-5 d-flex flex-column">
+                     {% for roomtype in roomtypes %}
+                     <div class="p-3 w-100">
+                        <a href="{% url 'rooms:room_type_detail' hostel.slug roomtype.slug %}" class="w-100">
+                            <div class="blog_box bg-warning border rounded p-3"  style="">
+                                <div class="blog_room">
+                                    <h3>{{ roomtype.name }}</h3>
+                                    <span>Number of {{ roomtype.residents }}</span>
+                                    <p>Price: {{ roomtype.price }}</p>
+                                </div>
+                            </div>
+                        </a>
+                        
+                     </div>
+                     {% endfor %}
+                     <div class="d-flex flex-column" style="height: 100%;  align-items: center; justify-content: center;" c>
+                        
+                        <p style="color:  red; font-size: 1.5rem;">{{hostel.address}}</p>
+                        <h2 style="color: red; font-size: 2rem;">
+                           {% for roomtype in roomtypes%}
+                           {{roomtype.name}} - {{roomtype.price}}
+                           {% endfor %}
+                        </h2>
+      
+                        
+                        
+                     </div>
+                 </div>
+                 <div class="col-md-7" style="max-height:100vw;">
+                     <div class="about_img">
+                        <figure><img src="{{ hostel.image.url }}" alt=""/></figure>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+      <!-- end about -->
+     
       
       
    </body>

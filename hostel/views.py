@@ -256,7 +256,6 @@ def payment_success(request, booking_id):
             if booking.payment_status == "processing":
                 booking.payment_status = "paid"
                 booked_room = Room.objects.get(rid=booking.room_id)
-                booked_room.current_occupants += 1
                 print (f'room {booked_room.current_occupants} new occupants')
                 booking.save()
 
@@ -264,9 +263,12 @@ def payment_success(request, booking_id):
                     type="Booking Confirmed",
                     booking = booking
                 )
+        
 
                 if request.user.is_authenticated:
                     noti.user = request.user
+                    booked_room.current_occupants.add(request.user)
+                    print(f'Added {request.user} to room {booked_room.number}')
                 else:
                     noti.user  = None
                 noti.save()
@@ -281,11 +283,6 @@ def payment_success(request, booking_id):
 
     return render( request, "payment_success.html", {'booking': booking})
  
-    # context = {
-    #     'booking': booking
-    # }
-    # return render(request, "payment_success.html", context)
-
 
 # 
 # Checkout PAYMENT FAILED view
@@ -298,19 +295,38 @@ def payment_failed(request, booking_id):
     return render(request, "failed.html", context)
 
 
-
 @csrf_exempt
+# def update_room_status(request):
+    # notifications = Notification.objects.filter(type = "Booking Confirmed")
+
+    # for notification in notifications:
+    #     booking = notification.booking
+    #     room = Room.objects.filter(rid = booking.room_id)
+    #     if room.status != "OCCUPIED":
+    #         if room.current_occupants.count() < room.residents:
+    #             room.status = 'VACANT'
+    #             print(f'room { room.number} occupancy status has been updated')
+    #         else: 
+    #             room.status = 'OCCUPIED'
+    #         print(f'room { room.number} occupancy status has been updated')
+    #     return HttpResponse("Room status updated.", status=200)
+
 def update_room_status(request):
-    notifications = Notification.objects.filter(type = "Booking Confirmed")
+    notifications = Notification.objects.filter(type="Booking Confirmed")
 
     for notification in notifications:
         booking = notification.booking
-        room = Room.objects.filter(rid = booking.room_id)
-        if room.status != "OCCUPIED":
-            if room.current_occupants < room.residents:
-                room.status = 'VACANT'
-                print(f'room { room.number} occupancy status has been updated')
-            else: 
-                room.status = 'OCCUPIED'
-            print(f'room { room.number} occupancy status has been updated')
-        return HttpResponse("Room status updated.", status=200)
+        try:
+            room = Room.objects.get(rid=booking.room_id)  # Use get() to fetch a single instance
+            if room.status != "OCCUPIED":
+                if room.current_occupants.count() < room.residents:  # Ensure these attributes are correctly defined
+                    room.status = 'VACANT'
+                else:
+                    room.status = 'OCCUPIED'
+                
+                room.save()  # Save changes to the room
+                print(f'Room {room.number} occupancy status has been updated to {room.status}.')
+        except Room.DoesNotExist:
+            print(f"No room found with ID {booking.room_id}.")  # Handle case where no room is found
+
+    return HttpResponse("Room status updated.", status=200)

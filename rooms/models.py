@@ -5,12 +5,14 @@ from django.utils.text import slugify
 from shortuuid.django_fields import ShortUUIDField
 import shortuuid 
 
+from userauth.models import User
+
 ROOM_STATUS = (
     ('OCCUPIED', "OCCUPIED"),
     ('VACANT', 'VACANT')
 )
 
- 
+
 
 
 
@@ -26,13 +28,13 @@ class RoomType(models.Model):
     amenities = models.CharField(max_length=200, help_text="seperate tags with comma", null=True, blank=True)
     rtid = ShortUUIDField(unique = True, length = 5, max_length=6,alphabet="abcde12345")
     slug = models.SlugField(unique=True)
-    image = models.ImageField(upload_to='roomtype_images/')
+    image = models.ImageField(upload_to='roomtype_images/', default='default.jpg')
 
     def __str__(self):
         return f'{self.name} - {self.hostel.name} - {self.price}'
     
     def rooms_count (self):
-        Room.objects.filter(room_type=self)-count()
+        Room.objects.filter(room_type=self).count()
         
     def save(self, *args, **kwargs):
         if self.slug == "" or self.slug == None:
@@ -51,29 +53,22 @@ class Room(models.Model):
     rid = ShortUUIDField(unique=True, length=5, max_length=6, alphabet="abcde12345")
     slug = models.SlugField()
     status = models.CharField(choices=ROOM_STATUS, max_length=20, default="VACANT")
-    current_occupants = models.IntegerField( null=True, blank=True, default=0)
+    current_occupants = models.ManyToManyField(User, blank=True, related_name='rooms')
+
     @property
-    def residents(self):
-        # This should only retrieve the number of residents without altering the state.
-        return self.type.residents
-
-    def update_room_status(self):
-        if self.current_occupants() < self.residents:
-            self.status = "VACANT"
-            self.save()
-        else:
-            self.status = "OCCUPIED"
-            self.save()
-
-    def __str__(self):
-        return f'{self.type} - {self.hostel.name} - Room {self.number}'
+    def is_full(self):
+        """Check if the room has reached its capacity of residents."""
+        return self.current_occupants.count() >= self.type.residents
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            uuid_key = shortuuid.uuid()  
+            uuid_key = shortuuid.uuid()
             unique_id = uuid_key[:4]
             self.slug = slugify(f'{self.type}-{self.number}-{unique_id.lower()}')
         super(Room, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f'{self.type} - {self.hostel.name} - Room {self.number}'
 
     class Meta:
         verbose_name_plural = "Rooms"

@@ -8,8 +8,8 @@
    
     
     {% block content %}
-    <div class="container-fluid d-flex">
-        <div class="col-auto">
+    <div class="container-fluid p-0 d-flex">
+        <div class="col-auto p-0">
            {% include "./userDashboard_sidebar.html" %}
         </div>
         <div class="col-auto">
@@ -39,7 +39,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="col-md-4">
                 {% block userDash_content%}
                 {% endblock %}
             </div>
